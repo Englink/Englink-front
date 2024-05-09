@@ -1,21 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignUpPage from "./pages/SignUpPage.jsx";
+import { MainPage } from "./pages/MainPage.jsx"
+import SingUpTeachersPage from "./pages/SingUpTeachersPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import StudentProfilePage from "./pages/StudentProfilePage.jsx";
+import NotFound404 from "./pages/ErrorPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-
-
-    <h1 className="text-3xl font-bold underline">
-      haimm
-    </h1>
-
-    </>
-  )
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage/>} />
+                <Route path="/login" element={<LoginPage/>} />
+                <Route path="/signup" element={<SignUpPage/>} />
+                <Route path="/signup-teachers" element={<SingUpTeachersPage/>} />
+                <Route path="/main" element={<MainPage/>} />
+                <Route path="/user-profile" element={<StudentProfilePage/>} />
+                <Route path="*" element={<NotFound404/>} />
+            </Routes>
+        </Router>
+    );
 }
 
-export default App
+export default App;
