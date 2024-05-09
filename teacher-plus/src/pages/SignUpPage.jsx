@@ -1,65 +1,71 @@
-
-import { useForm } from 'react-hook-form';
+import React from 'react';
+import {useForm} from 'react-hook-form';
 import axios from 'axios';
+import onSubmit from "../data/PostSignupstudents.jsx";
+
 
 const SignUpPage = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    // פונקציה שנמצאת בדאטה ועושה בקשת פוסט למאגר התלמידים
+    <onSubmit/>
 
- const onSubmit = async (data) => {
-    try {
-        const payload = {
-            userDetails: {
-                email: data.email,
-                password: data.password,
-                desc: data.description
-            },
-            isStudent: true
-        };
 
-        const response = await axios.post('http://localhost:3003/api/students/register', payload);
+return (
+    <>
+        <div className='flex justify-center items-center h-screen bg-gray-200'>
+            <form onSubmit={handleSubmit(onSubmit)}
+                  className="border max-w-md mx-auto p-10 bg-white rounded shadow-xl space-y-4">
+                {/* שדה של שם */}
+                <input {...register("name", {required: true})} placeholder="שם" className="border p-2 rounded w-full"/>
+                {errors.name && <span>שם הוא שדה חובה</span>}
 
-        if (response.status === 201) {
-            console.log(payload)
-            alert('ההרשמה הצליחה');
-        } else {
-            console.error('נכשל בתהליך ההרשמה');
-        }
-    } catch (error) {
-        console.error('שגיאה במהלך ההרשמה:', error);
-    }
-};
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                    דואל
-                </label>
-                <input {...register("email", { required: true })} className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? 'border-red-500' : ''}`} id="email" type="email" placeholder="דואר אלקטרוני" />
-                {errors.email && <p className="text-red-500 text-xs italic">שדה זה הינו חובה</p>}
-            </div>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                    סיסמה
-                </label>
-                <input {...register("password", { required: true })} className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.password ? 'border-red-500' : ''}`} id="password" type="password" placeholder="*************" />
-                {errors.password && <p className="text-red-500 text-xs italic">שדה זה הינו חובה</p>}
-            </div>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-                    כתובת URL לתמונה
-                </label>
-                <input {...register("image", { required: false })} className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.image ? 'border-red-500' : ''}`} id="text" type="text" placeholder="כתובת URL לתמונה" />
-                {errors.image && <p className="text-red-500 text-xs italic">שדה זה הינו חובה</p>}
-            </div>
+                {/* שדה של מייל */}
+                <input {...register("email", {
+                    required: "מייל הוא שדה חובה",
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: "כתובת המייל אינה תקנית"
+                    }
+                })} placeholder="מייל" className="border p-2 rounded w-full"/>
+                {errors.email && <span>{errors.email.message}</span>}
 
-            <div className="flex items-center justify-between">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                    הרשמה
+                {/* שדה של סיסמה */}
+                <input {...register("password", {
+                    required: "סיסמה היא שדה חובה",
+                    minLength: {
+                        value: 8,
+                        message: "הסיסמה חייבת להכיל לפחות 8 תווים"
+                    }
+                })} placeholder="סיסמה" className="border p-2 rounded w-full" type="password"/>
+                {errors.password && <span>{errors.password.message}</span>}
+
+                {/* שדה של גיל */}
+                <input {...register("age", {required: false})} placeholder="גיל"
+                       className="border p-2 rounded w-full" type="number"/>
+
+
+                {/*/!* שדה של הצגה עצמית *!/*/}
+                {/*<textarea {...register("desc", { required: true })} placeholder="הצגה עצמית" className="border p-2 rounded w-full bg-red-200" />*/}
+                {/*{errors.presentation && <span>הצגה עצמית היא שדה חובה</span>}*/}
+
+                {/* שדה של מין */}
+                <select {...register("gender", {required: true})} className="border p-2 rounded w-full">
+                    <option value="">בחר מין</option>
+                    <option value="male">זכר</option>
+                    <option value="female">נקבה</option>
+                </select>
+
+
+                {/* כפתור שליחת הטופס */}
+                <button type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full rounded">הרשמה
                 </button>
-            </div>
-        </form>
-    );
-};
+            </form>
+        </div>
+    </>
+);
+}
+;
 
 export default SignUpPage;
