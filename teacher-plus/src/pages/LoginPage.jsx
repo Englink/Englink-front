@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './loginPage.css'
-import { MainPage } from './MainPage'
+
 import { useNavigate } from 'react-router-dom'
 
 function LoginPage() {
@@ -22,14 +22,14 @@ function LoginPage() {
         isStudent: true
       },{withCredentials:true});
       
-      navigate('/main')
+      // navigate('/main')מה
       // alert('נכנסת למערכת בהצלחה!')
       // console.log(response.data.token)
-
+      //
       // setUserName('')
       // setUserPassword('')
-      
-
+      //
+      //
       // setLoggedIn(true)
     } catch (error) {
       alert('שגיאה במהלך התחברות: ' + error.toString());
