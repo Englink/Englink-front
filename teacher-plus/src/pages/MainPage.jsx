@@ -1,12 +1,20 @@
 import React, {useEffect, useState} from "react";
 import {GetTeachers} from "../data/GetTeachers.jsx";
 import Navbar from "../components/header/NavBar.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const MainPage = () => {
+    const navigate = useNavigate()
     const [teachers, setTeacherss] = useState([]);
+    
     useEffect(() => {
         GetTeachers()
             .then((data) => setTeacherss(data))
+            .catch(err=> {
+            if (err.response.status == 403) {
+                navigate('/')
+            }
+            })
     }, []);
 
     // טיפול בשורת החיפוש

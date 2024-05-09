@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './loginPage.css'
-// import MainPage from './mainPage'
+import { MainPage } from './MainPage'
+import { useNavigate } from 'react-router-dom'
 
 function LoginPage() {
+  const navigate = useNavigate()
   const [userName, setUserName] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
@@ -18,26 +20,21 @@ function LoginPage() {
           password: userPassword
         },
         isStudent: true
-      });
+      },{withCredentials:true});
+      
+      navigate('/main')
+      // alert('נכנסת למערכת בהצלחה!')
+      // console.log(response.data.token)
 
-      alert('נכנסת למערכת בהצלחה!')
-      console.log(response.data.token)
-
-      setUserName('')
-      setUserPassword('')
+      // setUserName('')
+      // setUserPassword('')
       
 
-      setLoggedIn(true)
+      // setLoggedIn(true)
     } catch (error) {
       alert('שגיאה במהלך התחברות: ' + error.toString());
     }
   };
-
-  // ניתן להציג את הקומפוננטה של MainPage אם המשתמש מחובר
-  if (loggedIn) {
-    return <>logged</>
-    //   return <MainPage />;
-  }
 
   // נוסיף את הפונקציונאליות של התחברות רק אם המשתמש לא מחובר
   return (
