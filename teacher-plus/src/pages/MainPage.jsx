@@ -49,7 +49,7 @@ export const MainPage = () => {
                             <h2 className="font-bold text-xl mb-2 text-gray-800">{teacher.name}</h2>
                             <p className="text-gray-600">{teacher.phone}</p>
                             <div className="flex space-x-4">
-                                <button
+                                <button id={teacher._id} onClick={() => navigate(`/teacher-profile/${teacher._id}`) }
                                     className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white font-bold py-2 px-4 rounded-md shadow-md">
                                     קבע שיעור
                                 </button>
