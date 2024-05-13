@@ -10,12 +10,13 @@ export const MainPage = () => {
     useEffect(() => {
         GetTeachers()
             .then((data) => setTeacherss(data))
+
             .catch(err=> {
             if (err.response.status == 403) {
                 navigate('/')
             }
             })
-    }, []);
+    }, [])
 
     // טיפול בשורת החיפוש
     const [query, set_query] = useState('')

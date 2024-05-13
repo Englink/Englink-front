@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 import NavBar from "../components/header/NavBar.jsx";
 import EditProfileModal from "../components/modal/EditProfileModal.jsx";
 import myImage from '../photos/Loz.png';
+import { ValidateUser } from '../data/ValidateUser.jsx';
+import { useNavigate } from "react-router-dom";
+
+
 
 
 function StudentProfilePage({ username, profileImageUrl }) {
+    const navigate = useNavigate()
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const closeModal = () => {
@@ -12,7 +17,24 @@ function StudentProfilePage({ username, profileImageUrl }) {
         setModalIsOpen(false);
     };
 
+
+
  const Url = 'https://meshek8.co.il/wp-content/uploads/2021/02/%D7%A6%D7%99%D7%9C%D7%95%D7%9D_%D7%A4%D7%A8%D7%95%D7%A4%D7%99%D7%9C_1.jpg';
+
+
+    useEffect(() => {
+        ValidateUser()
+            .then((response) => console.log("הגיע לthen"))
+            
+            .catch(err=> {
+                console.log("הגיע לcatch")
+                console.log(err)
+            if (err.response.status == 403) {
+                navigate('/')
+            }
+        })
+    }, [])
+
     return (
         <>
 

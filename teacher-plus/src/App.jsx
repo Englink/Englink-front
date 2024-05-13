@@ -1,12 +1,13 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SignUpPage from "./pages/SignUpPage.jsx";
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import SignUpPage from "./pages/SignUpPage.jsx"
 import { MainPage } from "./pages/MainPage.jsx"
-import SingUpTeachersPage from "./pages/SingUpTeachersPage.jsx";
-import HomePage from "./pages/HomePage.jsx";
-import StudentProfilePage from "./pages/StudentProfilePage.jsx";
-import NotFound404 from "./pages/ErrorPage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
+import SingUpTeachersPage from "./pages/SingUpTeachersPage.jsx"
+import HomePage from "./pages/HomePage.jsx"
+import StudentProfilePage from "./pages/StudentProfilePage.jsx"
+import NotFound404 from "./pages/ErrorPage.jsx"
+import LoginPage from "./pages/LoginPage.jsx"
+import MyLessones from './pages/myLessonsPage.jsx'
 
 function App() {
     return (
@@ -18,10 +19,11 @@ function App() {
                 <Route path="/signup-teachers" element={<SingUpTeachersPage/>} />
                 <Route path="/main" element={<MainPage/>} />
                 <Route path="/user-profile" element={<StudentProfilePage/>} />
+                <Route path="MyLessones" element={<MyLessones/>} />
                 <Route path="*" element={<NotFound404/>} />
             </Routes>
         </Router>
-    );
+    )
 }
 
-export default App;
+export default App
