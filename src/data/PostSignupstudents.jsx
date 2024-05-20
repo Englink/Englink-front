@@ -9,8 +9,7 @@ const onSubmit = async (data) => {
                 password: data.password,
                 age: data.age,
                 gender: data.gender
-            },
-            isStudent: true
+            }
         };
 
         const response = await axios.post('http://localhost:3003/api/students/register', payload);

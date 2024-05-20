@@ -11,9 +11,10 @@ const onSubmit = async (data) => {
                 age: data.age,
                 gender: data.gender,
                 image: data.image,
-                phone: data.phone
+                phone: data.phone,
+                role: "teacher"
             },
-            isStudent: false
+
         };
 
 
