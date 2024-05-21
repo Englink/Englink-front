@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage'; 
 import StudentProfilePage from './pages/StudentProfilePage';
 import SignUpPage from './pages/SignUpPage';
+import MyLessons from './pages/myLessonsPage';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -37,6 +38,18 @@ const router = createBrowserRouter([
   {
     path: '/user-profile',
     element: <StudentProfilePage />,
+    loader: async () => {
+      try {
+        const res = await ValidateUser();
+        return res
+      } catch (error) {
+        return redirect('/login')
+      }
+    }
+  },
+  {
+    path: '/myLessons',
+    element: <MyLessons />,
     loader: async () => {
       try {
         const res = await ValidateUser();
