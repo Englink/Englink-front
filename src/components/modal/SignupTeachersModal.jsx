@@ -28,18 +28,22 @@ function SignupTeachersModal(props) {
                                   clipRule="evenodd"/>
                         </svg>
                     </button>
-                    <button
+
+                    <a
+                        href="/login-teachers"
                         onClick={closeModal}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mb-4"
                     >
                         התחבר כמורה
-                    </button>
-                    <button
+                    </a>
+                    <a
+                        href="/singup-teachers"
                         onClick={closeModal}
                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
                     >
                         הרשם כמורה
-                    </button>
+                    </a>
+
                 </div>
             </Modal>
         </div>
