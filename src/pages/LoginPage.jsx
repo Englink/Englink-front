@@ -19,7 +19,8 @@ function LoginPage() {
           role:'student'
         },
       },{withCredentials:true})
-      
+
+
       navigate('/main')
 
     } catch (error) {
