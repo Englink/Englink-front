@@ -1,72 +1,172 @@
-import React, {useState , useEffect} from 'react';
+import React, { useState } from 'react';
+import updateUserDetails from "../data/EditUserDetails.jsx";
 import NavBar from "../components/header/NavBar.jsx";
-import EditProfileModal from "../components/modal/EditProfileModal.jsx";
-import myImage from '../photos/Loz.png';
-import { ValidateUser } from '../data/ValidateUser.jsx';
-import { useNavigate } from "react-router-dom";
 
 
+const ProfilePage = () => {
+    let user = localStorage.getItem("userInfo");
+    user = JSON.parse(user);
 
+    const [formData, setFormData] = useState({
+        userDetails: {
+            name: '',
+            email: '',
+            phone: '',
+            image: '',
+            currentPassword: '',
+            password: ''
+        }
+    });
 
-function StudentProfilePage({ username, profileImageUrl }) {
-    const navigate = useNavigate()
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    const closeModal = () => {
-        console.log('Closing modal...');
-        setModalIsOpen(false);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            userDetails: {
+                ...prevState.userDetails,
+                [name]: value,
+            },
+        }));
     };
 
+    const handleSubmit = async () => {
+        if (formData.userDetails.password && formData.userDetails.password !== formData.userDetails.currentPassword) {
+            alert("הסיסמאות אינן זהות");
+            return;
+        }
 
+        const dataToSend = { ...formData.userDetails };
+        delete dataToSend.currentPassword;
 
- const Url = 'https://meshek8.co.il/wp-content/uploads/2021/02/%D7%A6%D7%99%D7%9C%D7%95%D7%9D_%D7%A4%D7%A8%D7%95%D7%A4%D7%99%D7%9C_1.jpg';
-
-
-    useEffect(() => {
-        ValidateUser()
-            .then((response) => console.log("הגיע לthen"))
-            
-            .catch(err=> {
-                console.log("הגיע לcatch")
-                console.log(err)
-            if (err.response.status == 403) {
-                navigate('/')
-            }
-        })
-    }, [])
+        try {
+            const updatedData = await updateUserDetails(dataToSend);
+            alert("פרטיך עודכנו בהצלחה");
+            console.log(updatedData);
+            localStorage.setItem('userInfo', JSON.stringify(updatedData.updatedStudent));
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <>
-
-            <NavBar/>
-            <div className="py-40 flex flex-col items-center justify-center min-h-screen bg-gray-100">
-                <div className="absolute top-0 right-0 mt-4 mr-4">
-                    <img className="h-64 w-64 rounded-full" src={Url} alt="User profile"/>
+        <NavBar/>
+        <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-8">
+            <div className="container mx-auto px-4 py-8">
+                <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center space-x-4">
+                        <img
+                            className="w-24 h-24 rounded-full object-cover"
+                            src={formData.userDetails.image || user.image}
+                            alt="Profile"
+                        />
+                        <div>
+                            <h2 className="text-4xl font-extrabold text-white">פרופיל אישי</h2>
+                            <h3 className="text-2xl font-semibold text-white">ברוכים הבאים, {user.name}!</h3>
+                        </div>
+                    </div>
                 </div>
-                <h1 className="text-4xl font-bold mb-4">{username}</h1>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-                        onClick={() => setModalIsOpen(true)}>
-                    עריכת פרטים אישיים
-                </button>
-                <div className="bg-white p-4 rounded shadow-lg w-64">
-                    לוז
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-white rounded-lg shadow-lg p-6">
+                        <h4 className="text-lg font-semibold mb-4">פרטים אישיים</h4>
+                        <div className="space-y-4">
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">שם פרטי</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value={formData.userDetails.name}
+                                    onChange={handleChange}
+                                    placeholder={user.name}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">אימייל</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.userDetails.email}
+                                    onChange={handleChange}
+                                    placeholder={user.email}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">מספר טלפון</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    value={formData.userDetails.phone}
+                                    onChange={handleChange}
+                                    placeholder={user.phone}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">URL של תמונה</label>
+                                <input
+                                    type="url"
+                                    id="imageUrl"
+                                    name="image"
+                                    value={formData.userDetails.image}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-lg p-6">
+                        <h4 className="text-lg font-semibold mb-4">שינוי סיסמה</h4>
+                        <div className="space-y-4">
+                            <div>
+                                <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">סיסמה חדשה</label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="currentPassword"
+                                    name="currentPassword"
+                                    value={formData.userDetails.currentPassword}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">הזן שנית סיסמה חדשה</label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    value={formData.userDetails.password}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="text-sm text-blue-500 hover:text-blue-700 mt-2"
+                                >
+                                    {showPassword ? "הסתר סיסמה" : "הצג סיסמה"}
+                                </button>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
+                                className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+                            >
+                                שלח
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-
-                    <img src={myImage} alt="My Image" className="w-1/2 mx-auto py-20"/>
-                </div>
-
-            <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                הסר חשבון
-            </button>
-
-                <EditProfileModal isOpen={modalIsOpen} onClose={closeModal}/>
             </div>
-            <div>
-            </div>
+        </div>
         </>
     );
-}
+};
 
-export default StudentProfilePage;
+export default ProfilePage;
