@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavBar from '../components/header/NavBar';
+import NavBar from "../components/header/NavBar.jsx";
+
+
 
 const MyLessons = () => {
     const [lessons, setLessons] = useState([]);
@@ -84,5 +86,3 @@ const MyLessons = () => {
 }
 
 export default MyLessons;
-
-
