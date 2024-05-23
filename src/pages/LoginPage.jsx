@@ -19,7 +19,6 @@ function LoginPage() {
           role:'student'
         },
       },{withCredentials:true})
-      
       navigate('/main')
 
     } catch (error) {
@@ -75,48 +74,3 @@ function LoginPage() {
 export default LoginPage;
 
 
-
-
-// import React, { useState } from 'react'
-// import axios from 'axios'
-// import './loginPage.css'
-// import { useNavigate } from 'react-router-dom'
-
-// function LoginPage() {
-//   const navigate = useNavigate()
-//   const [userMail, setuserMail] = useState('')
-//   const [userPassword, setUserPassword] = useState('')
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault()
-
-//     try {
-//       const response = await axios.post('http://localhost:3003/api/students/login', {
-//         userDetails: {
-//           email: userMail,
-//           password: userPassword,
-//           role:'student'
-//         },
-//       },{withCredentials:true})
-      
-//       navigate('/main')
-
-//     } catch (error) {
-//       alert('שגיאה במהלך התחברות: ' + error.toString())
-//     }
-//   }
-
-//   return (
-//     <form onSubmit={handleLogin}>
-//       <label htmlFor="userMail">שם משתמש:</label>
-//       <input type="text" id="userMail" autoComplete='false' value={userMail} onChange={(e) => setuserMail(e.target.value)} />
-
-//       <label htmlFor="userPassword">סיסמה:</label>
-//       <input type="password" id="userPassword" autoComplete='false' value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
-
-//       <button type="submit">התחבר</button>
-//     </form>
-//   );
-// }
-
-// export default LoginPage

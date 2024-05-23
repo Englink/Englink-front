@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import SignupTeachersModal from "../modal/SignupTeachersModal.jsx";
 import {useNavigate} from "react-router-dom";
 
-const SlideNavbar = () => {
+const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -138,4 +138,4 @@ const SlideNavbar = () => {
     );
 };
 
-export default SlideNavbar;
+export default NavBar;
