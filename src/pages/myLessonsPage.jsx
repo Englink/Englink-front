@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import SlideNavbar from '../components/header/NavBar';
+import NavBar from '../components/header/NavBar';
 
 const MyLessons = () => {
     const [lessons, setLessons] = useState([]);
@@ -41,7 +41,7 @@ const MyLessons = () => {
 
     return (
         <>
-            <SlideNavbar />
+            <NavBar />
             <div className="min-h-screen bg-gray-100">
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-8">
