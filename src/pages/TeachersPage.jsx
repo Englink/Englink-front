@@ -1,50 +1,116 @@
-import React, {useState} from 'react';
-import NavBar from "../components/header/NavBar.jsx";
-import EditProfileModal from "../components/modal/EditProfileModal.jsx";
-import myImage from '../photos/Loz.png';
+import React, { useEffect, useState } from "react";
+import NavBarTeacher from "../components/forteacher/NavBarTeacher";
 
 
-function TeacherPage({ username, profileImageUrl }) {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+const TeacherPage = () => {
+    const [userInfo, setUserInfo] = useState(null);
 
-    const closeModal = () => {
-        console.log('Closing modal...');
-        setModalIsOpen(false);
-    };
+    useEffect(() => {
+        const userInfoString = localStorage.getItem('userInfo');
+        if (userInfoString) {
+            const userInfoObj = JSON.parse(userInfoString);
+            setUserInfo(userInfoObj);
+        }
+    }, []);
 
-    const Url = 'https://meshek8.co.il/wp-content/uploads/2021/02/%D7%A6%D7%99%D7%9C%D7%95%D7%9D_%D7%A4%D7%A8%D7%95%D7%A4%D7%99%D7%9C_1.jpg';
     return (
-        <>
-
-            <NavBar/>
-            <div className="py-40 flex flex-col items-center justify-center min-h-screen bg-gray-100">
-                <div className="absolute top-0 right-0 mt-4 mr-4">
-                    <img className="h-64 w-64 rounded-full" src={Url} alt="User profile"/>
+        <div className="min-h-screen flex flex-col bg-gray-100">
+            <header className="bg-black text-white p-4 shadow-md flex justify-between items-center">
+                <h1 className="text-2xl font-semibold">Online Teaching Platform</h1>
+                <NavBarTeacher/>
+            </header>
+            <main className="flex-grow container mx-auto p-4 flex justify-center items-center">
+                {userInfo && userInfo.image && (
+                    <div className="flex flex-col items-center mr-4">
+                        <img 
+                            src={userInfo.image} 
+                            alt="תמונת מורה" 
+                            className="w-32 h-32 rounded-full mb-2 object-cover" 
+                        />
+                        <p className="text-lg font-semibold">{userInfo.name}</p>
+                    </div>
+                )}
+                <div className="text-center">
+                    <p className="text-2xl font-semibold">שם המורה שהתחבר: {userInfo ? userInfo.name : 'לא נמצאו נתונים'}</p>
+                    <p className="text-xl text-gray-700">מדינה: {userInfo ? userInfo.country : 'לא נמצאו נתונים'}</p>
                 </div>
-                <h1 className="text-4xl font-bold mb-4">{username}</h1>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-                        onClick={() => setModalIsOpen(true)}>
-                    עריכת פרטים אישיים
-                </button>
-                <div className="bg-white p-4 rounded shadow-lg w-64">
-                    לוז
-                </div>
-                <div>
-
-                    <img src={myImage} alt="My Image" className="w-1/2 mx-auto py-20"/>
-                </div>
-
-                <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                    הסר חשבון
-                </button>
-
-                <EditProfileModal isOpen={modalIsOpen} onClose={closeModal}/>
-            </div>
-            <div>
-            </div>
-        </>
+            </main>
+            <footer className="bg-black text-white p-4 text-center">
+                &copy; {new Date().getFullYear()} Online Teaching Platform
+            </footer>
+        </div>
     );
-}
+};
 
 export default TeacherPage;
+
+
+// import React, { useEffect, useState } from "react";
+// import { NavLink } from "react-router-dom";
+
+
+// const TeacherPage = () => {
+//     const [userInfo, setUserInfo] = useState(null);
+
+//     useEffect(() => {
+//         const userInfoString = localStorage.getItem('userInfo');
+//         if (userInfoString) {
+//             const userInfoObj = JSON.parse(userInfoString);
+//             setUserInfo(userInfoObj);
+//         }
+//     }, []);
+
+//     return (
+//         <div className="min-h-screen flex flex-col bg-gray-100">
+//             <header className="bg-black text-white p-4 shadow-md flex justify-between items-center">
+//                 <h1 className="text-2xl font-semibold">Online Teaching Platform</h1>
+//                 <nav>
+//                     <ul className="flex space-x-6">
+//                         <li>
+//                             <NavLink 
+//                                 to="/teacher-page/my-classes" 
+//                                 className="text-gold hover:text-gold transition duration-300">
+//                                 השיעורים שלי
+//                             </NavLink>
+//                         </li>
+//                         <li>
+//                             <NavLink 
+//                                 to="/teacher-page/update-availability" 
+//                                 className="text-gold hover:text-gold transition duration-300">
+//                                 עדכון זמינות
+//                             </NavLink>
+//                         </li>
+//                         <li>
+//                             <NavLink 
+//                                 to="/teacher-page/edit-profile" 
+//                                 className="text-gold hover:text-gold transition duration-300">
+//                                 עריכת פרטים אישיים
+//                             </NavLink>
+//                         </li>
+//                     </ul>
+//                 </nav>
+//             </header>
+//             <main className="flex-grow container mx-auto p-4 flex justify-center items-center">
+//                 {userInfo && userInfo.image && (
+//                     <div className="flex flex-col items-center mr-4">
+//                         <img 
+//                             src={userInfo.image} 
+//                             alt="תמונת מורה" 
+//                             className="w-32 h-32 rounded-full mb-2 object-cover" 
+//                         />
+//                         <p className="text-lg font-semibold">{userInfo.name}</p>
+//                     </div>
+//                 )}
+//                 <div className="text-center">
+//                     <p className="text-2xl font-semibold">שם המורה שהתחבר: {userInfo ? userInfo.name : 'לא נמצאו נתונים'}</p>
+//                     <p className="text-xl text-gray-700">מדינה: {userInfo ? userInfo.country : 'לא נמצאו נתונים'}</p>
+//                 </div>
+//             </main>
+//             <footer className="bg-black text-white p-4 text-center">
+//                 &copy; {new Date().getFullYear()} Online Teaching Platform
+//             </footer>
+//         </div>
+//     );
+// };
+
+// export default TeacherPage;

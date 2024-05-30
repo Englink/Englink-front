@@ -8,7 +8,8 @@ const onSubmit = async (data) => {
                 email: data.email,
                 password: data.password,
                 age: data.age,
-                gender: data.gender
+                gender: data.gender,
+                role: "student"
             }
         };
 
