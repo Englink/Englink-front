@@ -1,0 +1,154 @@
+/* Calendar.css */
+
+/* Calendar.css */
+
+/* General styles */
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: transparent; /* שינוי הרקע לשקוף */
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    max-width: 800px; /* מגביל את הרוחב המקסימלי של היומן */
+    margin: 0 auto; /* ממרכז את היומן במסך */
+}
+
+/* ... שאר הקוד ... */
+
+/* Calendar header */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.calendar-header button {
+    background-color: #007bff; /* כחול ראשי */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    margin: 0 10px;
+}
+
+.calendar-header button:hover {
+    background-color: #0056b3; /* כחול כהה על hover */
+}
+
+/* Calendar grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px; /* רווח מורחב בין פריטי הרשת */
+    width: 100%;
+    justify-items: center;
+}
+
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* רקע לבן */
+}
+
+.date-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333; /* צבע טקסט מושחר */
+    margin-bottom: 10px;
+}
+
+.available-hours {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.available-hours button {
+    background-color: #007bff; /* רקע כחול ראשי */
+    color: #fff; /* צבע טקסט לבן */
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.available-hours button.selected-hour {
+    background-color: #0056b3; /* רקע כחול כהה עבור השעה הנבחרת */
+    color: #fff;
+}
+
+.available-hours button:hover {
+    background-color: #d6e0e4; /* אפקט hover בהיר */
+}
+
+.available-hours p.disabled-hours {
+    color: #ccc; /* צבע טקסט קל יותר עבור השעות המבוטלות */
+}
+
+.title {
+    font-family: 'Roboto', sans-serif; /* שימוש בפונט 'Roboto' */
+    font-size: 2em; /* גודל הפונט */
+    text-align: center; /* ממרכז את הטקסט */
+    color: #007bff; /* צבע הטקסט */
+    margin-bottom: 20px; /* מרחק מהיומן */
+}
+
+.calendar-header h2 {
+    font-size: 1.5em; /* גודל הפונט */
+    color: #007bff; /* צבע הטקסט */
+    background-color: #f8f9fa; /* צבע הרקע */
+    padding: 10px; /* רווח מסביב לטקסט */
+    border-radius: 5px; /* קימור הפינות */
+}
+.schedule-button {
+    background-color: #007bff; /* צבע רקע כחול */
+    color: #fff; /* צבע טקסט לבן */
+    padding: 10px 20px; /* רווח מסביב לטקסט */
+    border: none; /* הסרת הגבול */
+    border-radius: 5px; /* קימור הפינות */
+    cursor: pointer; /* שינוי הסמן לסמן של כפתור בעת העברת העכבר מעל הכפתור */
+    transition: background-color 0.3s ease; /* אנימציה של שינוי צבע הרקע */
+    font-size: 1em; /* גודל הפונט */
+    margin-top: 20px; /* מרחק מהאלמנט שמעליו */
+}
+
+.schedule-button:hover {
+    background-color: #0056b3; /* שינוי צבע הרקע לכחול כהה בעת העברת העכבר מעל הכפתור */
+}
+
+.booked-lessons {
+    border: 2px solid #007bff; /* מסגרת כחולה */
+    padding: 20px; /* רווח מסביב לטקסט */
+    margin-top: 20px; /* מרחק מהאלמנט שמתחתיו */
+    border-radius: 5px; /* קימור הפינות */
+}
+
+.booked-lessons h3 {
+    font-size: 1.5em; /* גודל הפונט */
+    color: #007bff; /* צבע הטקסט */
+    text-align: center; /* ממרכז את הטקסט */
+}
+.booked-lessons li {
+    font-size: 1.2em; /* גודל הפונט */
+    color: #007bff; /* צבע הטקסט */
+    background-color: #f8f9fa; /* צבע הרקע */
+    padding: 10px; /* רווח מסביב לטקסט */
+    border-radius: 5px; /* קימור הפינות */
+    margin-bottom: 10px; /* מרחק בין השורות */
+}
