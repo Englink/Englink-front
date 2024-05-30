@@ -1,0 +1,4 @@
+/* styles.css */
+.selected-date {
+    @apply bg-green-500 text-white;
+}

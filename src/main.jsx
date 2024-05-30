@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom';
 import { ValidateUser } from './data/ValidateUser';
-import { MainPage } from './pages/MainPage';
+import  MainPage  from './pages/MainPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import StudentProfilePage from './pages/StudentProfilePage';
@@ -11,6 +11,10 @@ import MyLessons from './pages/myLessonsPage';
 import './index.css';
 import SingUpTeachersPage from './pages/SingUpTeachersPage';
 import LoginTeacherPage from "./pages/LoginTeachersPage.jsx";
+import TeacherPage from './pages/TeachersPage.jsx';
+import MyClasses from './components/forteacher/MyClasses.jsx';
+import UpdateAvailability from './components/forteacher/UpdateAvailability.jsx';
+import SetAlessonPage from './pages/SetAlessonPage.jsx';
 
 
 
@@ -71,22 +75,70 @@ const router = createBrowserRouter([
                 const res = await ValidateUser();
                 return res
             } catch (error) {
-                return redirect('//main')
+                return redirect('/main')
             }
         }
     },
     {
         path: '/login-teachers',
         element: < LoginTeacherPage/>,
-loader: async () => {
-    try {
-        const res = await ValidateUser();
-        return res
-    } catch (error) {
-        return redirect('//main')
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/main')
+        }
     }
-}
-}
+    },
+    {
+        path: '/teacher-page',
+        element: < TeacherPage/>,
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/login-teachers')
+        }
+    }
+    },
+    {
+        path: '/teacher-page/my-classes',
+        element: < MyClasses/>,
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/login-teachers')
+        }
+    }
+    },{
+        path: '/teacher-page/update-availability',
+        element: < UpdateAvailability/>,
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/login-teachers')
+        }
+    }
+    },
+    {
+        path: 'set-lesson',
+        element: < SetAlessonPage/>,
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/login-teachers')
+        }
+    }
+    }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

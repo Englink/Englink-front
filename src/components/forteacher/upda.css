@@ -1,0 +1,59 @@
+.occupied-date {
+    background-color: rgb(146, 248, 109);
+}
+
+.occupied-date-1 {
+    background-color: rgb(88, 199, 76);
+}
+
+.occupied-date-2 {
+    background-color: rgb(51, 173, 37);
+}
+
+.occupied-date-3 {
+    background-color: rgb(19, 163, 26);
+}
+
+.occupied-date-4 {
+    background-color: rgb(6, 136, 13);
+}
+
+.occupied-date-5 {
+    background-color: rgb(3, 129, 9);
+}
+
+.occupied-date-6 {
+    background-color: rgb(2, 109, 8);
+}
+
+
+.occupied-date-7 {
+    background-color: rgb(2, 76, 4);
+}
+
+
+.occupied-date-8 {
+    background-color: rgb(2, 58, 3);
+}
+
+
+.occupied-date-9 {
+    background-color: rgb(2, 43, 4);
+}
+
+
+.occupied-date-10 {
+    background-color: rgb(3, 40, 5);
+}
+
+.selected-date {
+    background-color: lightblue;
+}
+
+.occupied-time {
+    background-color: red;
+    color: white;
+    padding: 2px 4px;
+    margin-right: 4px;
+    border-radius: 4px;
+}

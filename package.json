@@ -14,10 +14,13 @@
     "axios": "^1.6.8",
     "postcss": "^8.4.38",
     "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
+    "react-credit-cards-2": "^1.0.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
+    "react-time-picker": "^7.0.0",
     "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
