@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Spinner from "../components/Sppiner.jsx";
 
 function LoginPage() {
   const navigate = useNavigate()
   const [userMail, setuserMail] = useState('')
   const [userPassword, setUserPassword] = useState('')
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
+    setLoading(true)
     e.preventDefault()
 
     try {
@@ -24,9 +27,14 @@ function LoginPage() {
     } catch (error) {
       alert('שגיאה במהלך התחברות: ' + error.toString())
     }
+    finally {
+      setLoading(false)
+    }
   }
 
   return (
+      <>
+     <Spinner loading={loading}/>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">התחברות</h2>
@@ -68,6 +76,7 @@ function LoginPage() {
           </form>
         </div>
       </div>
+      </>
   );
 }
 
