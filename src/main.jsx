@@ -15,6 +15,7 @@ import TeacherPage from './pages/TeachersPage.jsx';
 import MyClasses from './components/forteacher/MyClasses.jsx';
 import UpdateAvailability from './components/forteacher/UpdateAvailability.jsx';
 import SetAlessonPage from './pages/SetAlessonPage.jsx';
+import EditProfile from './components/forteacher/EditProfile.jsx';
 
 
 
@@ -66,6 +67,18 @@ const router = createBrowserRouter([
                 return redirect('/login')
             }
         }
+    },
+    {
+        path: 'set-lesson',
+        element: < SetAlessonPage/>,
+        loader: async () => {
+        try {
+            const res = await ValidateUser();
+            return res
+        } catch (error) {
+            return redirect('/login-teachers')
+        }
+    }
     },
     {
         path: '/singup-teachers',
@@ -127,8 +140,8 @@ const router = createBrowserRouter([
     }
     },
     {
-        path: 'set-lesson',
-        element: < SetAlessonPage/>,
+        path: '/teacher-page/edit-profile',
+        element: < EditProfile/>,
         loader: async () => {
         try {
             const res = await ValidateUser();
@@ -138,6 +151,7 @@ const router = createBrowserRouter([
         }
     }
     }
+    
 
 ]);
 
