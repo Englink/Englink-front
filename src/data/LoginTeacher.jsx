@@ -15,6 +15,7 @@ const handleTeacherLogin = async (e, userName, userPassword,navigate) => {
             }
         }, { withCredentials: true });
         localStorage.setItem('userInfo', JSON.stringify(data.user))
+        console.log(data.user)
 
 
 

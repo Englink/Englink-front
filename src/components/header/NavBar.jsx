@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SignupTeachersModal from "../modal/SignupTeachersModal.jsx";
 import { useNavigate } from "react-router-dom";
+import profile from "../../images/profile.png";
 
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,44 +13,14 @@ const NavBar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const userImage = user.image ? `http://localhost:3003/${user.image}` : profile;
+
     return (
-        <nav className="bg-gray-800 text-white w-full z-50 shadow-md rtl">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-                <div className="flex items-center space-x-4 flex-row-reverse md:flex-row">
-                    <a href="/" className="text-white font-bold text-xl animate-pulse">
-                        LearnLink
-                    </a>
-                    <button
-                        onClick={() => {
-                            localStorage.removeItem("userInfo");
-                            navigate("/Login");
-                        }}
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg"
-                    >
-                        התנתק
-                    </button>
-                </div>
-                <div className="hidden md:flex items-center justify-center flex-grow space-x-6">
-                    <SignupTeachersModal />
-                    <a
-                        href="/myLessons"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                        השיעורים שלי
-                    </a>
-                    <a
-                        href="/user-profile"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                        פרופיל
-                    </a>
-                    <a
-                        href="/Main"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                        בית
-                    </a>
-                </div>
+        <nav className="bg-gray-800 text-white w-full z-50 shadow-md ">
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
+
+
                 <div className="flex items-center space-x-4">
                     {user && (
                         <div className="flex items-center space-x-3">
@@ -57,13 +28,53 @@ const NavBar = () => {
                                 {user.name}
                             </span>
                             <img
-                                src={user.image}
+                                src={userImage}
                                 alt="User"
                                 className="w-10 h-10 rounded-full object-cover"
                             />
                         </div>
                     )}
                 </div>
+
+                <div className="hidden md:flex items-center justify-center flex-grow space-x-6">
+                    <a
+                        href="/Main"
+                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                        בית
+                    </a>
+
+                    <a
+                        href="/user-profile"
+                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                        פרופיל
+                    </a>
+                    <a
+                        href="/myLessons"
+                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                        השיעורים שלי
+                    </a>
+                    <SignupTeachersModal/>
+                </div>
+
+
+                <div className="flex items-center space-x-10 flex-row-reverse md:flex-row">
+                    <a href="/" className="text-white font-bold text-xl animate-pulse">
+                        LearnLink
+                    </a>
+                </div>
+                <button
+                    onClick={() => {
+                        localStorage.removeItem("userInfo");
+                        navigate("/Login");
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg mr-10"
+                >
+                    התנתק
+                </button>
+
                 <div className="flex md:hidden">
                     <button
                         onClick={toggleMenu}
@@ -115,7 +126,7 @@ const NavBar = () => {
                             href="/Main"
                             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                         >
-                            בית
+                        בית
                         </a>
                         <a
                             href="/user-profile"
@@ -136,7 +147,7 @@ const NavBar = () => {
                                     {user.name}
                                 </span>
                                 <img
-                                    src={user.image}
+                                    src={userImage}
                                     alt="User"
                                     className="w-10 h-10 rounded-full object-cover"
                                 />
