@@ -4,22 +4,38 @@ import setLesson from "../data/PutSetAlesson.jsx";
 import './Calendar.css';
 import NavBar from "../components/header/NavBar.jsx";
 import PaymentModal from "../components/modal/PaymentModal.jsx";
+import Sppiner from "../components/Sppiner.jsx";
+import GetReviews from "../data/GetReviews.jsx";
+import profile from "../images/profile.png";
+import StarRating from "../components/AvgRating.jsx";
+
 
 const SetAlessonPage = () => {
+    const [loading, setLoading] = useState(false);
     const [availabilities, setAvailabilities] = useState({});
     const [selectedHour, setSelectedHour] = useState(null);
     const [bookedLessons, setBookedLessons] = useState([]);
     const [teacherData, setTeacherData] = useState({});
     const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
     const [currentWeek, setCurrentWeek] = useState(getCurrentWeek());
+    const [reviews, setReviews] = useState([])
 
     useEffect(() => {
+
+
+
         async function fetchAvailabilities() {
+            setLoading(true)
             try {
                 const teacherId = JSON.parse(localStorage.getItem('teacherId'));
-                const data = await GetAvailabilities(teacherId);
-                setTeacherData(data[0].teacherDetails);
 
+                const data = await GetAvailabilities(teacherId);
+
+                const review = await GetReviews(teacherId);
+
+                setReviews(review);
+
+                setTeacherData(data[0].teacherDetails);
                 if (data && data.length > 0) {
                     const formattedData = data.reduce((acc, item) => {
                         const date = new Date(item.date).toISOString().split('T')[0];
@@ -39,17 +55,22 @@ const SetAlessonPage = () => {
             } catch (error) {
                 console.error('Error fetching availabilities:', error);
                 setAvailabilities({});
+            } finally {
+                setLoading(false)
             }
         }
 
+
         fetchAvailabilities();
     }, []);
+
 
     function getCurrentWeek() {
         const now = new Date();
         const startOfWeek = now.getDate() - now.getDay();
         const startDate = new Date(now.setDate(startOfWeek));
         const week = [];
+
 
         for (let i = 0; i < 7; i++) {
             const date = new Date(startDate);
@@ -60,12 +81,17 @@ const SetAlessonPage = () => {
         return week;
     }
 
+
+    console.log(reviews)
+
+
     const handleSetLesson = async () => {
         if (!selectedHour) {
             alert('אנא בחר שעה תחילה');
             return;
         }
 
+        setLoading(true); // מפעיל את הספינר
         try {
             const response = await setLesson(selectedHour);
             if (response.status === 200) {
@@ -87,6 +113,8 @@ const SetAlessonPage = () => {
         } catch (error) {
             console.error('שגיאה:', error);
             alert('שגיאה בחיבור לשרת');
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -121,8 +149,6 @@ const SetAlessonPage = () => {
 
     const renderAvailableHours = (date) => {
         const hours = availabilities[date] || [];
-
-
         return (
             <div className="available-hours">
                 {hours.length > 0 ? (
@@ -141,12 +167,48 @@ const SetAlessonPage = () => {
             </div>
         );
     };
+
+const renderReviews = () => {
+    if (!reviews) {
+        return null;
+    }
+
     return (
+        <div className="grid gap-4">
+            {reviews.map((review) => {
+                const studentImage = review.studentId.image ? `http://localhost:3003/${review.studentId.image}` : profile;
+
+                return (
+                    <div key={review._id} className="bg-white rounded-lg shadow-md p-4 grid grid-cols-4 gap-4 items-center">
+                        <div className="col-span-1 text-gray-500">
+                            תמונה: <img src={studentImage} alt={review.studentId.name} className="h-12 w-12 rounded-full" />
+                        </div>
+                        <div className="col-span-1 text-gray-500">תלמיד: {review.studentId.name}</div>
+                        <div className="col-span-1 text-gray-500">תאריך: {new Date(review.commentDate).toLocaleDateString('he-IL')}</div>
+                        <div className="col-span-2 text-gray-700">{review.comment}</div>
+                        <div className="col-span-1 text-yellow-500 flex justify-end items-center">
+                            <span className="mr-1">{review.stars}</span>
+                            <svg className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+
+    return (
+
         <>
+            <Sppiner loading={loading}/>
             <NavBar/>
             <div className="px-4 md:px-0 md:max-w-3xl md:mx-auto">
-                <h1 className="text-6xl font-bold mb-4 text-center text-blue-500 shadow-lg">{teacherData.name}</h1>
-                <img className="h-44 w-44 rounded-full mt-20 mx-auto shadow-lg border-2 border-blue-500" src={teacherData.image} alt="User profile"/>
+                <h1 className="text-6xl font-bold mb-4 text-center text-blue-500 shadow-lg">{teacherData._id}</h1>
+                <img className="h-44 w-44 rounded-full mt-20 mx-auto shadow-lg border-2 border-blue-500"
+                     src={teacherData.image} alt="User profile"/>
                 <h3 className="text-2xl font-bold mb-4 text-center text-blue-500 shadow-lg"> {teacherData.desc}</h3>
 
                 <h1 className="title">לוח זמינות שיעורים</h1>
@@ -189,6 +251,19 @@ const SetAlessonPage = () => {
                     </button>
                     <PaymentModal isOpen={isPaymentModalOpen} onClose={() => setPaymentModalOpen(false)}
                                   onPayment={handleSetLesson}/>
+                    <div
+                        className="flex justify-between items-center border-8 mt-20 rounded-lg shadow-lg p-4 bg-blue-100">
+
+                        <div className="flex-grow border-2 border-blue-500 p-4 rounded-lg bg-white">
+                            <h1 className="text-xl font-bold text-blue-500 border-b-2 border-blue-500 pb-2 mb-4">פידבקים
+                                על מורה:</h1>
+                            {renderReviews()}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1>{teacherData._id}</h1>
+                    <StarRating teacherId={teacherData._id}/>
                 </div>
             </div>
         </>

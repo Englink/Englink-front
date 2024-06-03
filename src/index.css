@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* src/index.css או src/main.css */
+
+body {
+    font-family: AppleGothic;
+    direction: rtl; /* הוספת כיוון כתיבה מימין לשמאל */
+    text-align: right; /* יישור טקסט לימין */
+}

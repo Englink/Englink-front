@@ -1,4 +1,5 @@
 import axios from "axios";
+import profile from '../images/profile.png'
 
 const onSubmit = async (data) => {
     try {
@@ -9,6 +10,7 @@ const onSubmit = async (data) => {
                 password: data.password,
                 age: data.age,
                 gender: data.gender,
+                image: '',
                 role: "student"
             }
         };
