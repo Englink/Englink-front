@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import SignupTeachersModal from "../modal/SignupTeachersModal.jsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import profile from "../../images/profile.png";
+import SimpleDialog from "../SimpleDialog.jsx";
 
 const NavBar = () => {
+    const [alertVisible, setAlertVisible] = useState(false);
+
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+
+    const handleLogout = () => {
+        localStorage.removeItem("userInfo");
+        navigate("/Login");
+    };
+
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
     let user = localStorage.getItem("userInfo");
@@ -16,26 +36,32 @@ const NavBar = () => {
     const userImage = user.image ? `http://localhost:3003/${user.image}` : profile;
 
     return (
-        <nav className="bg-gray-800 text-white w-full z-50 shadow-md ">
+        <nav className="bg-gray-800 text-white w-full z-50 shadow-md relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative">
+                {/* לוגו למסכים קטנים - ממוקם באמצע באמצעות absolute positioning */}
+                <div className="flex md:hidden justify-center flex-grow absolute left-1/2 transform -translate-x-1/2">
+                    <a href="#" className="text-white font-bold text-xl animate-pulse">
+                        LearnLink
+                    </a>
+                </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
-
-
-                <div className="flex items-center space-x-4">
+                {/* תמונת משתמש ושם משתמש - מוצגים רק במסכים גדולים */}
+                <div className="hidden md:flex items-center space-x-4">
                     {user && (
-                        <div className="flex items-center space-x-3">
-                            <span className="text-white text-sm font-medium">
-                                {user.name}
+                        <div className="flex items-center space-x-3 ">
+                            <span className="text-white text-sm font-medium ml-10">
+                                ברוכים הבאים:{user.name}
                             </span>
                             <img
                                 src={userImage}
                                 alt="User"
-                                className="w-10 h-10 rounded-full object-cover"
+                                className="w-10 h-10 rounded-full object-cover border-2"
                             />
                         </div>
                     )}
                 </div>
 
+                {/* קישורי ניווט - מוצגים רק במסכים גדולים */}
                 <div className="hidden md:flex items-center justify-center flex-grow space-x-6">
                     <a
                         href="/Main"
@@ -43,7 +69,6 @@ const NavBar = () => {
                     >
                         בית
                     </a>
-
                     <a
                         href="/user-profile"
                         className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -59,23 +84,34 @@ const NavBar = () => {
                     <SignupTeachersModal/>
                 </div>
 
-
-                <div className="flex items-center space-x-10 flex-row-reverse md:flex-row">
-                    <a href="/" className="text-white font-bold text-xl animate-pulse">
+                {/* לוגו - מוצג רק במסכים גדולים */}
+                <div className="hidden md:flex items-center space-x-10">
+                    <a href="#" className="text-white font-bold text-xl animate-pulse ml-10">
                         LearnLink
                     </a>
                 </div>
-                <button
-                    onClick={() => {
-                        localStorage.removeItem("userInfo");
-                        navigate("/Login");
-                    }}
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg mr-10"
-                >
-                    התנתק
-                </button>
 
-                <div className="flex md:hidden">
+                {/* כפתור התנתקות - מוצג רק במסכים גדולים */}
+                <div className="hidden md:flex">
+
+                    <div className="flex justify-center items-center">
+                        <button
+                            onClick={handleDialogOpen}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg"
+                        >
+                            התנתק
+                        </button>
+                        <SimpleDialog
+                            open={dialogOpen}
+                            onClose={handleDialogClose}
+                            onConfirm={handleLogout}
+                        />
+                    </div>
+
+                </div>
+
+                {/* כפתור תפריט נפתח - מוצג רק במסכים קטנים */}
+                <div className="flex md:hidden ml-auto relative">
                     <button
                         onClick={toggleMenu}
                         type="button"
@@ -119,6 +155,7 @@ const NavBar = () => {
                 </div>
             </div>
 
+            {/* תפריט נפתח - מוצג רק במסכים קטנים */}
             {isMenuOpen && (
                 <div className="md:hidden bg-gray-800 text-white">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -126,7 +163,7 @@ const NavBar = () => {
                             href="/Main"
                             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                         >
-                        בית
+                            בית
                         </a>
                         <a
                             href="/user-profile"
@@ -140,25 +177,13 @@ const NavBar = () => {
                         >
                             השיעורים שלי
                         </a>
-                        <SignupTeachersModal />
-                        {user && (
-                            <div className="flex items-center space-x-3 mt-4 px-3">
-                                <span className="text-white text-sm font-medium">
-                                    {user.name}
-                                </span>
-                                <img
-                                    src={userImage}
-                                    alt="User"
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                            </div>
-                        )}
+                        <SignupTeachersModal/>
                         <button
                             onClick={() => {
                                 localStorage.removeItem("userInfo");
                                 navigate("/Login");
                             }}
-                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md w-full mt-2"
+                            className=" bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg "
                         >
                             התנתק
                         </button>
