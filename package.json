@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "postcss": "^8.4.38",
@@ -27,6 +32,7 @@
     "react-star-ratings": "^2.3.0",
     "react-stars": "^2.2.5",
     "react-time-picker": "^7.0.0",
+    "styled-components": "^6.1.11",
     "tailwindcss": "^3.4.3"
   },
   "devDependencies": {

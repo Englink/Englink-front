@@ -1,13 +1,13 @@
 import React from 'react';
-import classMeatImage from './ClassMeat.png';
+import LearnLink from '../../images/LearnLink.png';
 
 const FullScreenImage = () => {
     return (
-        <div className="relative  w-164 h-98">
+        <div className="relative">
             <img
-                src={classMeatImage}
+                src={LearnLink}
                 alt="Full Screen Image"
-                className="w-full h-full object-cover"
+                className="w-full h-[500px] object-scale-down"
             />
         </div>
     );
