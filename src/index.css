@@ -8,4 +8,20 @@ body {
     font-family: AppleGothic;
     direction: rtl; /* הוספת כיוון כתיבה מימין לשמאל */
     text-align: right; /* יישור טקסט לימין */
+    background-color: #f5f7fa;
+}
+
+.stars-container {
+    direction: ltr; /* הפוך כיוון לשמאל לימין */
+}
+button{
+    background-color: #4b42f7;
+}
+
+h1{
+    color: #13131c
+}
+
+p{
+    color: #505050
 }

@@ -16,8 +16,8 @@ const StarRating = ({ teacherId }) => {
                 } else {
                     console.error('Invalid response from server');
                 }
-            } catch (error) {
-                console.error('Error fetching reviews:', error);
+            } catch  {
+                console.log("error from get reviews")
             }
         };
 
@@ -37,15 +37,17 @@ const StarRating = ({ teacherId }) => {
     };
 
     return (
-        <div className="flex justify-center">
-            <StarRatings
-                rating={averageRating}
-                starRatedColor="gold"
-                numberOfStars={5}
-                name='rating'
-                starDimension="20px"
-                starSpacing="2px"
-            />
+        <div className="flex justify-center mb-5">
+            <div className="stars-container"> {/* כיתת CSS מיוחדת לכוכבים */}
+                <StarRatings
+                    rating={averageRating}
+                    starRatedColor="gold"
+                    numberOfStars={5}
+                    name='rating'
+                    starDimension="20px"
+                    starSpacing="2px"
+                />
+            </div>
         </div>
     );
 };
