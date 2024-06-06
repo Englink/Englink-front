@@ -16,9 +16,12 @@ const SingUpTeachersPage = () => {
     // החזרת JSX שמייצג את הטופס
     return (
         <>
-            <div className='flex justify-center items-center h-screen bg-gray-200'>
+         <div className="flex flex-col md:flex-row h-screen font-sans">
+            <div className="w-full md:w-1/2 flex justify-center items-center">
                 <form onSubmit={handleSubmit(onSubmit)}
-                      className="border max-w-md mx-auto p-10 bg-white rounded shadow-xl space-y-4">
+                       className="w-80  rounded  space-y-4">
+
+                <h2 className='text-2xl font-bold mb-4 text-dark-blue'> הרשמה כמורה</h2>
                     {/* שדה של שם */}
                     <input {...register("name", {required: true})} placeholder="שם"
                            className="border p-2 rounded w-full"/>
@@ -72,6 +75,10 @@ const SingUpTeachersPage = () => {
                     </button>
                 </form>
             </div>
+            <div className="w-full md:w-1/2 h-1/2 md:h-full">
+            <img src="src\images\teacher.jpg" alt="תיאור תמונה" className="w-full h-full object-cover opacity-80" />
+            </div>
+        </div>
         </>
     )
 };
