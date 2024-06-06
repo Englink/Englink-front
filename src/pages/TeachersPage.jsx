@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import NavBarTeacher from "../components/forteacher/NavBarTeacher";
 
 const TeacherPage = () => {
-    const [userInfo, setUserInfo] = useState(null);
+    let user = localStorage.getItem("userInfo")
+    user = JSON.parse(user);
+    console.log(user);
+    const [userInfo, setUserInfo] = useState("");
 
     useEffect(() => {
         const userInfoString = localStorage.getItem('userInfo');
@@ -11,6 +14,9 @@ const TeacherPage = () => {
             setUserInfo(userInfoObj);
         }
     }, []);
+
+    // const userImage = user.image ? `http://localhost:3003/${user.image}` : profile
+    // console.log(userImage);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
@@ -22,7 +28,8 @@ const TeacherPage = () => {
                 {userInfo && userInfo.image && (
                     <div className="flex flex-col items-center mb-4">
                         <img
-                            src={userInfo.image}
+                            // src={user.image}
+                            src={`http://localhost:3003/${user.image}`}
                             alt="תמונת מורה"
                             className="w-32 h-32 rounded-full mb-4 shadow-lg object-cover"
                         />

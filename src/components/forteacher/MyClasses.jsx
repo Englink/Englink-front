@@ -11,6 +11,7 @@ const MyClasses = () => {
         const fetchLessons = async () => {
             try {
                 const response = await axios.get('http://localhost:3003/api/teachers/get-teacher-lessons', { withCredentials: true });
+                
                 console.log(response.data.lessons);
                 setLessons(response.data.lessons);
                 setLoading(false);
@@ -41,6 +42,8 @@ const MyClasses = () => {
         lesson.studentDetails.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // const userImage = user.image ? `http://localhost:3003/${user.image}` : profile
+
     return (
         <div className="max-w-4xl mx-auto py-8">
             <NavBarTeacher />
@@ -60,14 +63,14 @@ const MyClasses = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredLessons.map(lesson => (
                         <div key={lesson._id} className="bg-white rounded-lg overflow-hidden shadow-md">
-                            <img src={lesson.studentDetails.image} alt={lesson.studentDetails.name} className="w-full h-48 object-cover rounded-t-lg" />
+                            <img src={`http://localhost:3003/${lesson.studentDetails.image}`} alt={lesson.studentDetails.name} className="w-full h-48 object-cover rounded-t-lg" />
                             <div className="p-4 text-center">
                                 <h2 className="text-2xl font-semibold mb-2">{lesson.name}</h2>
                                 <p className="mb-2 text-gray-700">תיאור: שיעור אנגלית</p>
                                 <p className="mb-2 text-gray-700">תאריך: {new Date(lesson.date).toLocaleDateString()}</p>
                                 <p className="mb-2 text-gray-700">שעה: {new Date(lesson.date).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p>
+                                <p className="mb-2 text-gray-700">אורך השיעור : 30 דקות</p>
                                 <p className="mb-2 text-gray-700">שם התלמיד: {lesson.studentDetails.name}</p>
-                                <p className="mb-2 text-gray-700">{lesson._id}</p>
                                 <button className="mb-2 bg-blue-200 p-2 rounded-md" onClick={() => cancelLesson(lesson._id)}>ביטול השיעור</button>
                             </div>                                                   
                         </div>
