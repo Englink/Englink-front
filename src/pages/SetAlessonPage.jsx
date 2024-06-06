@@ -225,49 +225,60 @@ return (
         <Sppiner loading={loading}/>
         <NavBar/>
         <div className="px-4 md:px-0 md:max-w-3xl md:mx-auto">
-            <h1 className="text-6xl font-bold mb-4 text-center text-blue-500">{teacherData.name}</h1>
-            <img className="h-44 w-44 rounded-full mt-20 mx-auto border-2 border-blue-500 "
-                 src={teacherData.image} alt="User profile"/>
+            <h1 className="text-6xl font-bold mt-8 text-center text-hnav">{teacherData.name}</h1>
+            <img className="h-44 w-44 rounded-full mt-5 mx-auto border-2 border-purple "
+                 src={teacherData.image ? teacherData.image : profile} alt="User profile"/>
             <div className='mt-5 mb-5'>
+                <p className='text-center'>דירוג ממוצע</p>
                 <StarRating teacherId={teacherData._id}/>
             </div>
-            <h3 className="text-lg font-medium mb-2 text-center text-blue-400 bg-gray-100 p-2 rounded-lg">
+            <p className='text-center font-bold'>קצת עלי: </p>
+            <h3 className="text-lg font-medium mb-2 text-center text-purple bg-gray-200 p-2 rounded-lg">
                 {teacherData.desc}
             </h3>
 
-            <h1 className="text-4xl font-bold mb-4 text-center text-blue-500">לוח זמינות שיעורים</h1>
-            <div className="calendar-container mx-auto max-w-lg bg-white rounded-lg p-4">
-                <div className="calendar-header flex justify-between items-center border-b-2 border-blue-500 pb-2 mb-4">
-                    <button className="bg-blue-500 text-white rounded-lg px-2 py-1" onClick={() => handleWeekChange(-1)}>הקודם</button>
-                    <h2 className="text-xl font-bold text-blue-500">{new Date(currentWeek[0]).toLocaleDateString('he-IL')} - {new Date(currentWeek[6]).toLocaleDateString('he-IL')}</h2>
-                    <button className="bg-blue-500 text-white rounded-lg px-2 py-1" onClick={() => handleWeekChange(1)}>הבא</button>
+            <h1 className="text-4xl font-bold mb-4 mt-10 text-center text-hnav">לוח זמינות שיעורים</h1>
+            <div className="calendar-container mx-auto max-w-lg bg-but rounded-lg p-4">
+                <p className='text-center font-bold mt-5 underline  '>טווח תאריכים שבועי</p>
+                <div className=" calendar-header flex justify-between items-center border-b-2 border-purple pb-2 mb-4">
+                    <button className="hnav-button text-white rounded-lg px-2 py-1"
+                            onClick={() => handleWeekChange(-1)}>הקודם
+                    </button>
+                    <h2 className="bg-purple text-xl font-bold text-hnav-button">{new Date(currentWeek[0]).toLocaleDateString('he-IL')} - {new Date(currentWeek[6]).toLocaleDateString('he-IL')}</h2>
+                    <button className="hnav-button text-white rounded-lg px-2 py-1"
+                            onClick={() => handleWeekChange(1)}>הבא
+                    </button>
                 </div>
                 <div className="calendar-body">
                     <div className="calendar-grid grid grid-cols-7 gap-4">
                         {currentWeek.map(date => (
-                            <div key={date} className="calendar-day border border-blue-500 rounded-lg p-2">
-                                <div className="day-name text-sm font-bold text-blue-500">{getDayName(new Date(date))}</div>
-                                <div className="date-header text-xs text-gray-500 mb-2">{new Date(date).toLocaleDateString('he-IL')}</div>
+                            <div key={date} className="calendar-day border border-hnav rounded-lg p-2">
+                                <div
+                                    className="day-name text-sm font-bold text-purple">{getDayName(new Date(date))}</div>
+
+                                <div
+                                    className="date-header text-xs text-gray-500 mb-2">{new Date(date).toLocaleDateString('he-IL')}</div>
                                 {renderAvailableHours(date)}
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className="booked-lessons mt-4">
-                    <h3 className="text-lg font-bold text-blue-500 mb-2">שיעורים שנקבעו:</h3>
+                <div className="booked-lessons mt-4 border-hnav ">
+                    <h3 className="text-lg font-bold mb-2 text-hnav">שיעורים שנקבעו:</h3>
                     <ul className="list-disc list-inside">
                         {bookedLessons.map(({hour, id, date}) => {
                             const formattedDate = new Date(date);
                             if (isNaN(formattedDate)) {
                                 return <li key={id} className="text-sm text-gray-700">השיעור נקבע בהצלחה - {hour}</li>;
                             } else {
-                                return <li key={id} className="text-sm text-gray-700">{`${formattedDate.toLocaleDateString('he-IL')} - ${hour}`}</li>;
+                                return <li key={id}
+                                           className="text-sm text-gray-700">{`${formattedDate.toLocaleDateString('he-IL')} - ${hour}`}</li>;
                             }
                         })}
                     </ul>
                 </div>
                 <button
-                    className="schedule-button bg-blue-500 text-white rounded-lg px-4 py-2 mt-4 block mx-auto"
+                    className="schedule-button bg-hnav text-white rounded-lg px-4 py-2 mt-4 block mx-auto"
                     onClick={() => setPaymentModalOpen(true)}
                     disabled={!selectedHour}
                 >

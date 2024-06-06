@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { GetTeachers } from "../data/GetTeachers";
+import React, {useState, useEffect} from "react";
+import {GetTeachers} from "../data/GetTeachers";
 import Navbar from "../components/header/NavBar";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import FullScreenImage from "../components/header/imagestudent.jsx";
 import Spinner from "../components/Sppiner.jsx";
 import StarRating from "../components/AvgRating.jsx";
@@ -13,6 +13,7 @@ const MainPage = () => {
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [expandedStates, setExpandedStates] = useState({});
 
     useEffect(() => {
         const fetchTeachers = async () => {
@@ -38,22 +39,29 @@ const MainPage = () => {
         navigate('/set-lesson');
     };
 
+    const handleExpand = (id) => {
+        setExpandedStates(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }));
+    };
+
     return (
         <>
-            <Spinner loading={loading} />
+            <Spinner loading={loading}/>
             <header>
-                <Navbar />
+                <Navbar/>
             </header>
-            <FullScreenImage />
+            <FullScreenImage/>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-veryLight min-h-screen">
-                <div className="mt-10 flex justify-center">
+           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+                <div className="search-container r">
                     <div className="relative">
                         <input
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה"
-                            className="text-center px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-medium transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                            className="search-container "
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
@@ -61,16 +69,30 @@ const MainPage = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
-                        <div key={index} className="bg-fuchsia-300 rounded-lg shadow-lg flex flex-col items-center">
-                            <img src={teacher.image} alt={teacher.name} className="w-full h-48 object-cover rounded-lg" />
+                    <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
+                            <img src={teacher.image} alt={teacher.name}
+                                 className="w-full h-48 object-cover rounded-lg"/>
                             <div className="px-6 py-4 text-center">
-                                <h2 className="text-xl font-bold text-gray-800 mb-2">{teacher.name}</h2>
-                                <p className="text-gray-600 mb-4">{teacher.phone}</p>
-                                <StarRating teacherId={teacher._id} />
+                                <h2 className="text-xl font-bold text-hnav mb-2">{teacher.name}</h2>
+                                <p
+                                    className="text-parag mb-4 cursor-pointer"
+                                    onClick={() => handleExpand(teacher._id)}
+                                >
+                                    {expandedStates[teacher._id] || !teacher.desc ? teacher.desc : `${teacher.desc.substring(0, 100)}...`}
+                                </p>
+                                <button
+                                    onClick={() => handleExpand(teacher._id)}
+                                    className="text-hnav hover:text-purple bg-transparent font-bold"
+                                >
+                                    {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
+                                </button>
+                                <StarRating teacherId={teacher._id}/>
                                 <button
                                     onClick={() => handleSetLesson(teacher._id)}
-                                    className=" hover:bg-medium text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-medium"
+                                    className="btn relative inline-flex items-center justify-center px-5 py-2.5 overflow-hidden font-medium tracking-wide text-white bg-purple rounded-full focus:outline-none focus:ring transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-indigo-400"
                                 >
+                                    <span
+                                        className="animate-ping absolute inline-flex h-full w-full rounded-full  opacity-75"></span>
                                     קבע שיעור
                                 </button>
                             </div>

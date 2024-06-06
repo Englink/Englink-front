@@ -6,7 +6,7 @@ const Spinner = ({ loading }) => {
         <>
             {loading && (
                 <div className="flex justify-center items-center fixed inset-0 bg-gray-900 bg-opacity-50 z-50">
-                    <BeatLoader color="#36d7b7" />
+                    <BeatLoader color="#4b42f7" />
                 </div>
             )}
         </>
