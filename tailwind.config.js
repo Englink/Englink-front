@@ -25,6 +25,7 @@ module.exports = {
         darkblue: '#13131c',//headline
         gray: '#505050',//paragraf
         light: '#eae9ff',//spetial button
+        
       },
     },
   },

@@ -33,6 +33,7 @@ function LoginPage() {
   }
 
   return (
+    
     <div className="flex flex-col sm:flex-row h-screen font-sans">
       <div className="relative flex items-center justify-center shadow-md text-center md:w-1/2 w-full" dir="rtl">
         <Spinner loading={loading} />
