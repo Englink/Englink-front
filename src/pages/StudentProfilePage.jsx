@@ -133,11 +133,11 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <label htmlFor="image-upload"
-                                           className="block text-sm font-medium text-gray-700 mb-2">העלה תמונה</label>
+                                           className="block text-sm font-medium text-gray-700 mb-2 ">העלה תמונה</label>
                                     <input type="file" id="image-upload" name="image" onChange={handleFileChange}
                                            className="hidden"/>
                                     <label htmlFor="image-upload"
-                                           className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
+                                           className="cursor-pointer bg-purple hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
                                         בחר תמונה
                                     </label>
                                 </div>

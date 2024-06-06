@@ -77,7 +77,8 @@ p{
     border: 2px solid transparent;
     border-radius: 25px;
     background: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    color: #020000;
+    font: bold 1rem 'AppleGothic', sans-serif;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
