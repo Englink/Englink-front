@@ -9,6 +9,7 @@ import Spinner from "../Sppiner.jsx"
 const ProfilePage = () => {
     let user = localStorage.getItem("userInfo")
     user = JSON.parse(user);
+    console.log(user);
 
     const [loading, setLoading] = useState(false)
 
@@ -62,7 +63,7 @@ const ProfilePage = () => {
             setLoading(false)
         }
     };
-
+    console.log(user);
     const userImage = user.image ? `http://localhost:3003/${user.image}` : profile
 
     return (

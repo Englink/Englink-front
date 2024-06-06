@@ -25,3 +25,85 @@ h1{
 p{
     color: #505050
 }
+
+.z-negative {
+    z-index: -1;
+}
+.glass-effect {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    overflow: hidden;
+    color: #fff;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+
+.glass-effect:hover::before {
+    opacity: 0.5;
+}
+
+.glass-effect:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.4));
+}
+
+.glass-effect h1, .glass-effect p {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.search-container {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.search-container .relative {
+    position: relative;
+}
+
+.search-container input {
+    width: 300px;
+    padding: 10px 20px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.search-container input::placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.search-container input:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+.search-container input:focus:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+.hnav-button {
+    background-color: #13131c !important;
+}

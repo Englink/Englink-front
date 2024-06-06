@@ -12,9 +12,12 @@ const SignUpPage = () => {
 
 return (
     <>
-        <div className='flex justify-center items-center h-screen bg-gray-200'>
+    <div className="flex flex-col md:flex-row h-screen font-sans">
+        <div className="w-full md:w-1/2 flex justify-center items-center">
+           
             <form onSubmit={handleSubmit(onSubmit)}
-                  className="border max-w-md mx-auto p-10 bg-white rounded shadow-xl space-y-4">
+                   className="w-80  rounded  space-y-4">
+                       <h2 className='text-2xl font-bold mb-4 text-dark-blue'>הרשמה</h2>
                 {/* שדה של שם */}
                 <input {...register("name", {required: true})} placeholder="שם" className="border p-2 rounded w-full"/>
                 {errors.name && <span>שם הוא שדה חובה</span>}
@@ -59,10 +62,15 @@ return (
 
                 {/* כפתור שליחת הטופס */}
                 <button type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full rounded">הרשמה
+                        className="bg-purple text-white font-bold py-2 px-4 w-full rounded">הרשמה
                 </button>
             </form>
+            </div>
+            <div className="w-full md:w-1/2 h-1/2 md:h-full">
+            <img src="src\images\plash.jpg" alt="תיאור תמונה" className="w-full h-full object-cover opacity-80" />
+            </div>
         </div>
+       
     </>
 );
 }

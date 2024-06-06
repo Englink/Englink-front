@@ -36,11 +36,11 @@ const NavBar = () => {
     const userImage = user.image ? `http://localhost:3003/${user.image}` : profile;
 
     return (
-        <nav className="bg-gray-800 text-white w-full z-50 shadow-md relative">
+        <nav className="bg-hnav text-but w-full z-50 shadow-md relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative">
                 {/* לוגו למסכים קטנים - ממוקם באמצע באמצעות absolute positioning */}
                 <div className="flex md:hidden justify-center flex-grow absolute left-1/2 transform -translate-x-1/2">
-                    <a href="#" className="text-white font-bold text-xl animate-pulse">
+                    <a href="#" className="text-but font-bold text-xl animate-pulse">
                         LearnLink
                     </a>
                 </div>
@@ -49,7 +49,7 @@ const NavBar = () => {
                 <div className="hidden md:flex items-center space-x-4">
                     {user && (
                         <div className="flex items-center space-x-3 ">
-                            <span className="text-white text-sm font-medium ml-10">
+                            <span className="text-but text-sm font-medium ml-10">
                                 ברוכים הבאים:{user.name}
                             </span>
                             <img
@@ -65,19 +65,19 @@ const NavBar = () => {
                 <div className="hidden md:flex items-center justify-center flex-grow space-x-6">
                     <a
                         href="/Main"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        className="text-but hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                         בית
                     </a>
                     <a
                         href="/user-profile"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        className="text-but hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                         פרופיל
                     </a>
                     <a
                         href="/myLessons"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        className="text-but hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                         השיעורים שלי
                     </a>
@@ -87,7 +87,8 @@ const NavBar = () => {
                 {/* לוגו - מוצג רק במסכים גדולים */}
                 <div className="hidden md:flex items-center space-x-10">
                     <a href="#" className="text-white font-bold text-xl animate-pulse ml-10">
-                        LearnLink
+                        EngLink
+                        <br className='text-white ml-10'/>אנגלית בקליק
                     </a>
                 </div>
 

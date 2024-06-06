@@ -33,50 +33,52 @@ function LoginPage() {
   }
 
   return (
-      <>
-     <Spinner loading={loading}/>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">התחברות</h2>
-          <form onSubmit={handleLogin}>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="userMail">
-                שם משתמש:
-              </label>
+
+      <div className="flex flex-col sm:flex-row h-screen font-sans">
+        <div className="relative flex items-center justify-center shadow-md text-center md:w-1/2 w-full" dir="rtl">
+          <Spinner loading={loading} />
+
+          <form onSubmit={handleLogin} className='w-full sm:w-1/2 grid gap-2'>
+            <div className="mb-4 text-right">
+              <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
               <input
+                  placeholder='שם משתמש'
                   type="text"
                   id="userMail"
-                  autoComplete='off'
+                  autoComplete="off"
                   value={userMail}
                   onChange={(e) => setuserMail(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="shadow rounded w-full py-2 px-3 focus:outline-none focus:shadow-outline"
               />
             </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="userPassword">
-                סיסמה:
-              </label>
+            <div className="mb-4 text-right">
               <input
+                  placeholder='סיסמה'
                   type="password"
                   id="userPassword"
-                  autoComplete='off'
+                  autoComplete="off"
                   value={userPassword}
                   onChange={(e) => setUserPassword(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="shadow bg-white  rounded w-full py-2 px-3 focus:outline-none focus:shadow-outline"
               />
+              <a href="#" className="block text-sm text-gray hover:text-bluedark text-right py-1">
+                שכחת סיסמה?
+              </a>
             </div>
-            <div className="flex items-center justify-between">
-              <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                התחבר
-              </button>
-            </div>
+            <button
+                type="submit"
+                className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              התחבר
+            </button>
+
           </form>
         </div>
+        <div className="relative flex items-center justify-center font-sans w-full sm:w-1/2 h-screen">
+          <img  className="w-full object-cover object-top max-h-full opacity-80" src="src/images/WhatsApp Image 2024-06-06 at 12.50.22.jpeg" alt="Description of the image" />
+          {/* <div className="absolute inset-0 opacity-50"></div> */}
+        </div>
       </div>
-      </>
   );
 }
 
