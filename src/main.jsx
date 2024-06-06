@@ -16,6 +16,7 @@ import MyClasses from './components/forteacher/MyClasses.jsx';
 import UpdateAvailability from './components/forteacher/UpdateAvailability.jsx';
 import SetAlessonPage from './pages/SetAlessonPage.jsx';
 import EditProfile from './components/forteacher/EditProfile.jsx';
+import FeedbackForm from "./components/FeedbackForm.jsx";
 
 
 
@@ -138,6 +139,10 @@ const router = createBrowserRouter([
             return redirect('/login-teachers')
         }
     }
+    },
+    {
+        path: 'feedback',
+        element: < FeedbackForm/>,
     },
     {
         path: '/teacher-page/edit-profile',

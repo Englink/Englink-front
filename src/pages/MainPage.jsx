@@ -5,10 +5,12 @@ import {useNavigate} from 'react-router-dom';
 import FullScreenImage from "../components/header/imagestudent.jsx";
 import Spinner from "../components/Sppiner.jsx";
 import StarRating from "../components/AvgRating.jsx";
+import profile from "../images/profile.png";
 
 const MainPage = () => {
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
+
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
@@ -61,7 +63,7 @@ const MainPage = () => {
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה"
-                            className="search-container "
+                            className="search-container text-hnav "
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
@@ -70,7 +72,7 @@ const MainPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
                     <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
-                            <img src={teacher.image} alt={teacher.name}
+                            <img src={`http://localhost:3003/${teacher.image}`} alt={profile}
                                  className="w-full h-48 object-cover rounded-lg"/>
                             <div className="px-6 py-4 text-center">
                                 <h2 className="text-xl font-bold text-hnav mb-2">{teacher.name}</h2>
