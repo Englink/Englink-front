@@ -23,6 +23,7 @@ const onSubmit = async (data) => {
 
         if (response.status === 201) {
             alert('ההרשמה הצליחה');
+            window.location.href = '/login';
         } else {
             console.error('נכשל בתהליך ההרשמה');
         }

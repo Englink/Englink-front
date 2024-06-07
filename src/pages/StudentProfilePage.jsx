@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import updateUserDetails from "../data/EditUserDetails.jsx";
 import NavBar from "../components/header/NavBar.jsx";
 import profile from '../images/profile.png'
 import editprifilepic from '../images/editprifilepic.jpg'
 import Sppiner from "../components/Sppiner.jsx";
+
+import RemoveDialog from "../components/modal/RemoveDialog.jsx";
+import deleteStudentUser from "../data/DeleteStudent.jsx";
 
 
 const ProfilePage = () => {
@@ -22,7 +25,15 @@ const ProfilePage = () => {
     });
 
     const [showPassword, setShowPassword] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
     const handleFileChange = (e) => {
 
         setFormData({
@@ -133,11 +144,11 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <label htmlFor="image-upload"
-                                           className="block text-sm font-medium text-gray-700 mb-2">העלה תמונה</label>
+                                           className="block text-sm font-medium text-gray-700 mb-2 ">העלה תמונה</label>
                                     <input type="file" id="image-upload" name="image" onChange={handleFileChange}
                                            className="hidden"/>
                                     <label htmlFor="image-upload"
-                                           className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
+                                           className="cursor-pointer bg-purple hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
                                         בחר תמונה
                                     </label>
                                 </div>
@@ -195,6 +206,23 @@ const ProfilePage = () => {
                             <span className="relative ">שלח</span>
                         </button>
                     </div>
+
+                </div>
+                <div className="flex justify-center items-center">
+                    <button
+                        onClick={handleDialogOpen}
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg"
+                    >
+                        הסר חשבון
+                    </button>
+                    <RemoveDialog
+                        open={dialogOpen}
+                        onClose={handleDialogClose}
+                        onConfirm={() => deleteStudentUser().then(() => {
+                            localStorage.removeItem('userInfo');
+                            window.location.replace('/login');
+                        })}
+                    />
                 </div>
             </div>
         </>

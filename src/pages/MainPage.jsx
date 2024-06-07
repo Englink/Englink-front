@@ -5,10 +5,12 @@ import {useNavigate} from 'react-router-dom';
 import FullScreenImage from "../components/header/imagestudent.jsx";
 import Spinner from "../components/Sppiner.jsx";
 import StarRating from "../components/AvgRating.jsx";
+import profile from "../images/profile.png";
 
 const MainPage = () => {
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
+
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
@@ -61,7 +63,7 @@ const MainPage = () => {
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה"
-                            className="search-container "
+                            className="search-container text-hnav "
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
@@ -70,7 +72,7 @@ const MainPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
                     <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
-                            <img src={teacher.image} alt={teacher.name}
+                            <img src={`http://localhost:3003/${teacher.image}`} alt={profile}
                                  className="w-full h-48 object-cover rounded-lg"/>
                             <div className="px-6 py-4 text-center">
                                 <h2 className="text-xl font-bold text-hnav mb-2">{teacher.name}</h2>
@@ -87,6 +89,10 @@ const MainPage = () => {
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
                                 <StarRating teacherId={teacher._id}/>
+                                <div className='mb-4'>
+                                    <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>
+                                </div>
+
                                 <button
                                     onClick={() => handleSetLesson(teacher._id)}
                                     className="btn relative inline-flex items-center justify-center px-5 py-2.5 overflow-hidden font-medium tracking-wide text-white bg-purple rounded-full focus:outline-none focus:ring transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-indigo-400"

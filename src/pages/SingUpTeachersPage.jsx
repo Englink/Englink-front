@@ -16,12 +16,12 @@ const SingUpTeachersPage = () => {
     // החזרת JSX שמייצג את הטופס
     return (
         <>
-         <div className="flex flex-col md:flex-row h-screen font-sans">
-            <div className="w-full md:w-1/2 flex justify-center items-center">
-                <form onSubmit={handleSubmit(onSubmit)}
-                       className="w-80  rounded  space-y-4">
+            <div className="flex flex-col md:flex-row h-screen font-sans">
+                <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-10">
+                    <form onSubmit={handleSubmit(onSubmit)}
+                          className="w-full max-w-md p-8 bg-ivory border-2 border-blue-400 rounded-lg shadow-md space-y-4">
 
-                <h2 className='text-2xl font-bold mb-4 text-dark-blue'> הרשמה כמורה</h2>
+                <h2 className='text-2xl font-bold mb-4 text-dark-blue text-center'> הרשמה כמורה</h2>
                     {/* שדה של שם */}
                     <input {...register("name", {required: true})} placeholder="שם"
                            className="border p-2 rounded w-full"/>
@@ -39,7 +39,7 @@ const SingUpTeachersPage = () => {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                             message: "כתובת המייל אינה תקנית"
                         }
-                    })} placeholder="מייל" className="border p-2 rounded w-full"/>
+                    })} placeholder="מייל - user@example.com" className="border p-2 rounded w-full"/>
                     {errors.email && <span>{errors.email.message}</span>}
 
                     {/* שדה של סיסמה */}
@@ -53,7 +53,7 @@ const SingUpTeachersPage = () => {
                     {errors.password && <span>{errors.password.message}</span>}
 
                     {/* שדה של גיל */}
-                    <input {...register("age", {required: false})} placeholder="שנות נסיון"
+                    <input {...register("age", {required: false})} placeholder="גיל"
                            className="border p-2 rounded w-full" type="number"/>
 
 
@@ -65,9 +65,6 @@ const SingUpTeachersPage = () => {
                     </select>
 
 
-                    {/* שדה של העלאת תמונה */}
-                    <input {...register("image", {required: false})} placeholder="תמונה "
-                           className="border p-2 rounded w-full" type="text"/>
 
                     {/* כפתור שליחת הטופס */}
                     <button type="submit"
@@ -85,3 +82,5 @@ const SingUpTeachersPage = () => {
 
 // ייצוא הקומפוננטה
 export default SingUpTeachersPage;
+
+

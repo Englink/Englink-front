@@ -33,7 +33,9 @@ module.exports = {
         blue: '#4b42f7', //button
         darkblue: '#13131c',//headline
         gray: '#505050',//paragraf
-        light: '#eae9ff'//spetial button
+        light: '#eae9ff',//spetial button
+        background: '#f5f7fa'
+
 
 
       },

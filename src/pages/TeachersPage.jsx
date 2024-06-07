@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBarTeacher from "../components/forteacher/NavBarTeacher";
+import UpdateAvailability from "../components/forteacher/UpdateAvailability.jsx";
+import AvgRating from "../components/AvgRating.jsx";
 
 const TeacherPage = () => {
     let user = localStorage.getItem("userInfo")
@@ -20,41 +22,43 @@ const TeacherPage = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
-            <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 shadow-md flex justify-between items-center">
-                <h1 className="text-2xl font-semibold">Online Teaching Platform</h1>
+
+
                 <NavBarTeacher />
-            </header>
-            <main className="flex-grow container mx-auto p-8 flex flex-col items-center">
-                {userInfo && userInfo.image && (
-                    <div className="flex flex-col items-center mb-4">
-                        <img
-                            // src={user.image}
-                            src={`http://localhost:3003/${user.image}`}
-                            alt="תמונת מורה"
-                            className="w-32 h-32 rounded-full mb-4 shadow-lg object-cover"
-                        />
-                        <p className="text-xl font-semibold text-gray-800">{userInfo.name}</p>
+            <main className="flex-grow container mx-auto p-8 flex flex-row-reverse items-start">
+                <div className=''>
+                    <div className='ml-20'>
+                        <p className="text-2xl font-semibold mt-4 underline">מה הדירוג שלי: </p>
+                        <AvgRating teacherId={userInfo._id}/>
                     </div>
-                )}
-                <div className="text-center bg-white p-6 rounded-lg shadow-lg">
-                    <p className="text-2xl font-semibold mb-2">שם המורה שהתחבר: {userInfo ? userInfo.name : 'לא נמצאו נתונים'}</p>
-                    <p className="text-xl text-gray-700">מדינה: {userInfo ? userInfo.country : 'לא נמצאו נתונים'}</p>
+
+                    <UpdateAvailability/>
+                </div>
+                <div className="flex flex-col items-center mb-4">
+                    {userInfo && userInfo.image && (
+                        <>
+                            <img
+                                // src={user.image}
+                                src={`http://localhost:3003/${user.image}`}
+                                alt="תמונת מורה"
+                                className="w-32 h-32 rounded-full mb-4 shadow-lg object-cover"
+                            />
+                            <p className="text-xl font-semibold text-gray-800">{userInfo.name}</p>
+                        </>
+                    )}
+                    <div className="text-center bg-white p-6 rounded-lg shadow-lg w-1/2">
+                        <p className="text-2xl font-semibold mb-2 underline">קצת על עצמי: </p>
+                        <p className="text-xl text-gray-700"> {userInfo.desc}</p>
+                    </div>
+
                 </div>
             </main>
-            <footer className="bg-gray-800 text-white p-4 text-center">
-                &copy; {new Date().getFullYear()} Online Teaching Platform
-            </footer>
+
         </div>
     );
 };
 
 export default TeacherPage;
-
-
-
-
-
-
 
 
 // import React, { useEffect, useState } from "react";
