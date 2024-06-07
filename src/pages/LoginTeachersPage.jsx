@@ -9,43 +9,53 @@ function LoginTeacherPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form
-                onSubmit={(e) => handleTeacherLogin(e, userName, userPassword, navigate)}
-                className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
-            >
-                <h2 className="text-2xl font-bold mb-6 text-center">התחברות</h2>
-                <div className="mb-4">
-                    <label htmlFor="userName" className="block text-gray-700">שם משתמש:</label>
-                    <input
-                        type="text"
-                        id="userName"
-                        autoComplete="off"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="userPassword" className="block text-gray-700">סיסמה:</label>
-                    <input
-                        type="password"
-                        id="userPassword"
-                        autoComplete="on"
-                        value={userPassword}
-                        onChange={(e) => setUserPassword(e.target.value)}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    התחבר
-                </button>
+        <div className="relative flex flex-col h-screen font-sans">
+          {/* Image and background */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img className="w-full object-cover object-bottom h-full" src="src/images/לוגין מורה.jpg" alt="Description of the image" />
+          </div>
+      
+          {/* Overlay to provide background opacity without affecting form */}
+          <div className="absolute inset-0 bg-background opacity-70 md:w-1/2"></div>
+      
+          {/* Form container */}
+          <div className="z-10 flex items-center justify-center text-center md:w-1/2 h-full" dir="rtl">
+            <form onSubmit={(e) => handleTeacherLogin(e, userName, userPassword, navigate)} className="w-3/4 md:w-1/2 grid gap-2">
+              <div className="mb-4 text-right">
+                <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
+                <input
+                  placeholder="אימייל"
+                  type="text"
+                  id="userName"
+                  autoComplete="off"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
+                />
+              </div>
+              <div className="mb-4 text-right">
+                <input
+                  placeholder="סיסמה"
+                  type="password"
+                  id="userPassword"
+                  autoComplete="on"
+                  value={userPassword}
+                  onChange={(e) => setUserPassword(e.target.value)}
+                  className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                התחבר
+              </button>
             </form>
+          </div>
         </div>
-    );
+      );
+      
 }
 
 export default LoginTeacherPage
+
