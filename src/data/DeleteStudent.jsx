@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-const deleteUser = async (id) => {
+const deleteStudentUser = async () => {
   try {
-    const response = await axios.delete(`http://localhost:3003/api/students/${id}`);
+    const response = await axios.delete('http://localhost:3003/api/students/deletion', {withCredentials: true});
 
     if (response.status === 200) {
-      console.log(`User with id ${id} was successfully deleted.`);
-      alert(`User with id ${id} was successfully deleted.`);
+      console.log('user deleted successfully')
+      alert('User deleted successfully');
     } else {
-      console.error(`Failed to delete user with id ${id}.`);
+      console.error('Failed to delete user');
     }
-  } catch (error) {
-    console.error(`Error occurred while deleting user with id ${id}:`, error);
+  } catch {
+    console.log('Error deleting user');
   }
 };
 
-export default deleteUser;
+export default deleteStudentUser;

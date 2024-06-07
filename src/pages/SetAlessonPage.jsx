@@ -28,13 +28,15 @@ const SetAlessonPage = () => {
                 const teacherId = JSON.parse(localStorage.getItem('teacherId'));
 
                 const data = await GetAvailabilities(teacherId);
+                setTeacherData(data[0].teacherDetails);
 
                 const review = await GetReviews(teacherId);
 
+
                 setReviews(review);
+                // console.log(data[0].teacherDetails)
 
 
-                setTeacherData(data[0].teacherDetails);
                 if (data && data.length > 0) {
                     const formattedData = data.reduce((acc, item) => {
                         const date = new Date(item.date).toISOString().split('T')[0];
@@ -77,7 +79,7 @@ const SetAlessonPage = () => {
         }
 
         fetchReviews();
-    }, []);
+    }, [teacherData]);
 
 
     function getCurrentWeek() {
@@ -97,7 +99,7 @@ const SetAlessonPage = () => {
     }
 
 
-    console.log(reviews)
+    // console.log(reviews)
 
 
     const handleSetLesson = async () => {
@@ -191,6 +193,7 @@ const SetAlessonPage = () => {
 
         return (
             <div className="grid gap-4">
+
                 {reviews.map((review) => {
                     const studentImage = review.studentId.image ? `http://localhost:3003/${review.studentId.image}` : profile;
 
@@ -219,18 +222,23 @@ const SetAlessonPage = () => {
         );
     };
 
-
+    // console.log(teacherData.price)
 return (
     <>
         <Sppiner loading={loading}/>
         <NavBar/>
         <div className="px-4 md:px-0 md:max-w-3xl md:mx-auto">
             <h1 className="text-6xl font-bold mt-8 text-center text-hnav">{teacherData.name}</h1>
-            <img className="h-44 w-44 rounded-full mt-5 mx-auto border-2 border-purple "
-                 src={teacherData.image ? teacherData.image : profile} alt="User profile"/>
+            {/*{console.log(teacherData.image)}*/}
+<img className="h-44 w-44 rounded-full mt-5 mx-auto border-2 border-purple object-cover"
+     src={teacherData.image ? `http://localhost:3003/${teacherData.image}` : profile} alt={profile}/>
             <div className='mt-5 mb-5'>
                 <p className='text-center'>דירוג ממוצע</p>
                 <StarRating teacherId={teacherData._id}/>
+            </div>
+            <div>
+
+                <p className='text-center'>מחיר לשיעור: {teacherData.price} ש"ח</p>
             </div>
             <p className='text-center font-bold'>קצת עלי: </p>
             <h3 className="text-lg font-medium mb-2 text-center text-purple bg-gray-200 p-2 rounded-lg">

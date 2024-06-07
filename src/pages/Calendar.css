@@ -27,7 +27,7 @@
 }
 
 .calendar-header button {
-    background-color: #007bff; /* כחול ראשי */
+    background-color: #4b42f7; /* כחול ראשי */
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -89,7 +89,7 @@
 }
 
 .available-hours button.selected-hour {
-    background-color: #0056b3; /* רקע כחול כהה עבור השעה הנבחרת */
+    background-color: #36ec3b; /* רקע כחול כהה עבור השעה הנבחרת */
     color: #fff;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .schedule-button:hover {
-    background-color: #0056b3; /* שינוי צבע הרקע לכחול כהה בעת העברת העכבר מעל הכפתור */
+    background-color: rgba(95, 241, 73, 0.98); /* שינוי צבע הרקע לכחול כהה בעת העברת העכבר מעל הכפתור */
 }
 
 .booked-lessons {

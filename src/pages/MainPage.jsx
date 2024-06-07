@@ -89,6 +89,10 @@ const MainPage = () => {
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
                                 <StarRating teacherId={teacher._id}/>
+                                <div className='mb-4'>
+                                    <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>
+                                </div>
+
                                 <button
                                     onClick={() => handleSetLesson(teacher._id)}
                                     className="btn relative inline-flex items-center justify-center px-5 py-2.5 overflow-hidden font-medium tracking-wide text-white bg-purple rounded-full focus:outline-none focus:ring transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-indigo-400"
