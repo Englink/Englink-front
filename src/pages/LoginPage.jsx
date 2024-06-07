@@ -33,53 +33,54 @@ function LoginPage() {
   }
 
   return (
-
-      <div className="flex flex-col sm:flex-row h-screen font-sans">
-        <div className="relative flex items-center justify-center shadow-md text-center md:w-1/2 w-full" dir="rtl">
-          <Spinner loading={loading} />
-
-          <form onSubmit={handleLogin} className='w-full sm:w-1/2 grid gap-2'>
-            <div className="mb-4 text-right">
-              <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
-              <input
-                  placeholder='שם משתמש'
-                  type="text"
-                  id="userMail"
-                  autoComplete="off"
-                  value={userMail}
-                  onChange={(e) => setuserMail(e.target.value)}
-                  className="shadow rounded w-full py-2 px-3 focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4 text-right">
-              <input
-                  placeholder='סיסמה'
-                  type="password"
-                  id="userPassword"
-                  autoComplete="off"
-                  value={userPassword}
-                  onChange={(e) => setUserPassword(e.target.value)}
-                  className="shadow bg-white  rounded w-full py-2 px-3 focus:outline-none focus:shadow-outline"
-              />
-              <a href="#" className="block text-sm text-gray hover:text-bluedark text-right py-1">
-                שכחת סיסמה?
-              </a>
-            </div>
-            <button
-                type="submit"
-                className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              התחבר
-            </button>
-
-          </form>
-        </div>
-        <div className="relative flex items-center justify-center font-sans w-full sm:w-1/2 h-screen">
-          <img  className="w-full object-cover object-top max-h-full opacity-80" src="src/images/WhatsApp Image 2024-06-06 at 12.50.22.jpeg" alt="Description of the image" />
-          {/* <div className="absolute inset-0 opacity-50"></div> */}
-        </div>
+    <div className="relative flex flex-col h-screen font-sans">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <img className="scale-x-[-1] w-full object-cover h-full" src="src\images\לוגין תלמיד.jpg" alt="Description of the image" />
       </div>
+  
+      <div className="absolute inset-0 bg-background opacity-50 md:w-1/2"></div>
+  
+      <div className="z-10 flex items-center justify-center text-center md:w-1/2 h-full" dir="rtl">
+        <Spinner loading={loading} />
+  
+        <form onSubmit={handleLogin} className="w-3/4 md:w-1/2 grid gap-2">
+          <div className="mb-4 text-right">
+            <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
+            <input
+              placeholder="שם משתמש"
+              type="text"
+              id="userMail"
+              autoComplete="off"
+              value={userMail}
+              onChange={(e) => setuserMail(e.target.value)}
+              className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
+              />
+          </div>
+          <div className="mb-4 text-right">
+            <input
+              placeholder="סיסמה"
+              type="password"
+              id="userPassword"
+              autoComplete="off"
+              value={userPassword}
+              onChange={(e) => setUserPassword(e.target.value)}
+              className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
+            />
+            <a href="#" className="block text-sm text-gray hover:text-bluedark text-right py-1">
+              שכחת סיסמה?
+            </a>
+          </div>
+          <button
+            type="submit"
+            className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            התחבר
+          </button>
+        </form>
+      </div>
+    </div>
   );
+  
 }
 
 export default LoginPage;
