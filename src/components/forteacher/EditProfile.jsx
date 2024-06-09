@@ -22,7 +22,8 @@ const ProfilePage = () => {
         desc:'',
         image: '',
         currentPassword: '',
-        password: ''
+        password: '',
+        price: ''
     })
 
     const [showPassword, setShowPassword] = useState(false)
@@ -155,6 +156,21 @@ const ProfilePage = () => {
                                         className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                     />
                                 </div>
+
+                                <div>
+                                    <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                                        מחיר לשיעור
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                        placeholder={user.price ? user.price : ''}
+                                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    />
+                                </div>
                                 <div className="flex flex-col items-center">
                                     <label htmlFor="image-upload"
                                            className="block text-sm font-medium text-gray-700 mb-2 ">העלה תמונה</label>
@@ -165,6 +181,7 @@ const ProfilePage = () => {
                                         בחר תמונה
                                     </label>
                                 </div>
+
                             </div>
                         </div>
                         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -218,7 +235,7 @@ const ProfilePage = () => {
                         <span className="relative">שלח</span>
                     </button>
                 </div>
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center mt-5">
                     <button
                         onClick={handleDialogOpen}
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 transform hover:scale-110 hover:shadow-lg"
