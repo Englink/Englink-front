@@ -101,8 +101,18 @@ const MainPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
                         <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
-                            <img src={teacher.image ? `http://localhost:3003/${teacher.image}` : profile} alt="profile"
-                                 className="w-full h-48 object-cover rounded-lg"/>
+                            {/*הדיב של התמונה*/}
+                            <div className="relative">
+                                <div className="glass-effect rounded-lg shadow-lg overflow-hidden">
+                                    <img
+                                        src={teacher.image ? `http://localhost:3003/${teacher.image}` : profile}
+                                        alt="profile"
+                                        className="w-full h-48 object-cover"
+                                    />
+                                </div>
+                                <div
+                                    className="absolute inset-0 rounded-lg border-4 border-purple-500 glass-border"></div>
+                            </div>
                             <div className="px-6 py-4 text-center">
                                 <h2 className="text-xl font-bold text-hnav mb-2">{teacher.name}</h2>
                                 <p
