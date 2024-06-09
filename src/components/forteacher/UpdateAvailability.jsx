@@ -24,19 +24,25 @@ const UpdateAvailability = () => {
 
                 const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
                 if (response.data.status === 'success') {
-                    const lessons = response.data.teacherAvailability;
+                    const availabilities = response.data.teacherAvailability;
+                    // console.log(availabilities);
                     const occupied = {};
-                    lessons.forEach(lesson => {
-                        const date = new Date(lesson.date);
+                    availabilities.forEach(availability => {
+                        const date = new Date(availability.date);
+                        // console.log(date);
                         const dateString = date.toLocaleDateString();
-                        const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        // console.log(dateString);
+                        const timeString = formatTime(date.getHours(), date.getMinutes());
+                        // console.log(timeString);
                         if (!occupied[dateString]) {
                             occupied[dateString] = [];
                         }
                         occupied[dateString].push(timeString);
                     });
+                    // console.log(occupied);
                     setOccupiedDates(occupied);
                 }
+                
             } catch (error) {
                 console.error('Error fetching occupied dates:', error);
             }
@@ -45,12 +51,18 @@ const UpdateAvailability = () => {
         fetchOccupiedDates();
     }, []);
 
+
+    const formatTime = (hour, minute = 0) => {
+        return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+    };
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
         const dateString = date.toLocaleDateString();
         setOccupiedTimes(occupiedDates[dateString] || []);
         setShowTimePicker(true);
     };
+
 
     const handleAddDateTime = () => {
         setAction('add');
@@ -76,7 +88,7 @@ const UpdateAvailability = () => {
         setSelectedTimes([]);
         setShowTimePicker(false);
     };
-
+    
     const handleRemoveDateTime = () => {
         setAction('remove');
         const formattedDate = {
@@ -89,14 +101,13 @@ const UpdateAvailability = () => {
         } else {
             const updatedDates = dates.map(d => {
                 if (d.date === formattedDate.date) {
-                    const newTimes = d.times.filter(t => !formattedDate.times.includes(t));
                     return {
                         ...d,
-                        times: newTimes
+                        times: [...new Set([...d.times, ...formattedDate.times])]
                     };
                 }
                 return d;
-            }).filter(d => d.times.length > 0);
+            })
             setDates(updatedDates);
         }
         setSelectedTimes([]);
@@ -112,54 +123,52 @@ const UpdateAvailability = () => {
     };
 
     const handleSubmit = async () => {
-        try {
-            if (action === 'add') {
-                for (const date of dates) {
-                    for (const time of date.times) {
-                        const [hour, minute] = time.split(':');
-                        const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
-                            date: {
-                                year: selectedDate.getFullYear(),
-                                month: selectedDate.getMonth() + 1,
-                                day: selectedDate.getDate(),
-                                hour: parseInt(hour, 10),
-                                minute: parseInt(minute, 10)
+                try {
+                    if (action === 'add') {
+                        for (const dateObj of dates) {
+                            for (const time of dateObj.times) {
+                                const [hour, minute] = time.split(':');
+                                const [day, month, year] = dateObj.date.split('.')
+                                const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
+                                    date: {
+                                        year: year,
+                                        month: month,
+                                        day: day,
+                                        hour: hour,
+                                        minute: minute
+                                    }
+                                }, { withCredentials: true });
+                                console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
                             }
+                        }
+                    } else if (action === 'remove') {
+                        const datess = []
+                        for (const dateObj of dates) {
+                            const timeInDays = dateObj.times.map((time) => {
+                                const [day, month, year] = dateObj.date.split('.')
+                                const [hour, minute] = time.split(':');
+                                const dateToDelete = new Date(year, month - 1, day, hour, minute)
+                                return dateToDelete
+                            })
+                            datess.push(...timeInDays)
+                        }
+                        
+                        const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
+                            datess
                         }, { withCredentials: true });
-                        console.log('Availability updated successfully for date and time:', date.date, time, response.data);
+                        console.log('Availability updated successfully for dates and times:', response.data);
                     }
+                    
+                    setDates([]);
+                    setSelectedDate(new Date());
+                    setSelectedTimes([]);
+                    setShowTimePicker(false);
+                    setAction(null);
+                } catch (error) {
+                    console.error('Error updating availability:', error);
                 }
-            } else if (action === 'remove') {
-                for (const date of dates) {
-                    const timesToDelete = date.times.map(time => {
-                        const [hour, minute] = time.split(':');
-                        return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), parseInt(hour, 10), parseInt(minute, 10)).toISOString();
-                    });
+            };
 
-                    const userInfoString = localStorage.getItem('userInfo');
-                    let userInfoObj = null;
-                    if (userInfoString) {
-                        userInfoObj = JSON.parse(userInfoString);
-                    }
-
-                    await axios.delete('http://localhost:3003/api/teachers/cancele-availability', {
-                        data: { dates: timesToDelete, teacherId: userInfoObj._id },
-                        withCredentials: true
-                    });
-
-                    console.log('Availability cancelled successfully for dates:', timesToDelete);
-                }
-            }
-
-            setDates([]);
-            setSelectedDate(new Date());
-            setSelectedTimes([]);
-            setShowTimePicker(false);
-            setAction(null);
-        } catch (error) {
-            console.error('Error updating availability:', error);
-        }
-    };
 
     const handleCancelSelection = (index) => {
         const newDates = dates.filter((_, i) => i !== index);
@@ -178,7 +187,7 @@ const UpdateAvailability = () => {
             }
         }
         return null;
-    };
+    }
 
     return (
         <div className="bg-gradient-to-r from-gray-100 to-gray-300 min-h-screen py-8">
@@ -213,22 +222,34 @@ const UpdateAvailability = () => {
                                 <div key={hour} className="flex items-center">
                                     <input
                                         type="checkbox"
-                                        id={`time-${hour}:00`}
-                                        value={`${hour}:00`}
-                                        checked={selectedTimes.includes(`${hour}:00`)}
-                                        onChange={() => handleTimeChange(`${hour}:00`)}
-                                        className="mr-2"
+                                        id={`time-${formatTime(hour, 0)}`}
+                                        value={formatTime(hour, 0)}
+                                        checked={selectedTimes.includes(formatTime(hour, 0))}
+                                        onChange={() => handleTimeChange(formatTime(hour, 0))}
+                                        className={`mr-2 ${occupiedTimes.includes(formatTime(hour, 0)) ? 'bg-red-500' : ''}`}
                                     />
-                                    <label htmlFor={`time-${hour}:00`} className="mr-4">{`${hour}:00`}</label>
+                                
+                                    <label
+                                        htmlFor={`time-${formatTime(hour, 0)}`}
+                                        className={`mr-4 ${occupiedTimes.includes(formatTime(hour, 0)) ? 'text-red-500' : ''}`}
+                                    >
+                                        {formatTime(hour, 0)}
+                                    </label>
+                                    
                                     <input
                                         type="checkbox"
-                                        id={`time-${hour}:30`}
-                                        value={`${hour}:30`}
-                                        checked={selectedTimes.includes(`${hour}:30`)}
-                                        onChange={() => handleTimeChange(`${hour}:30`)}
-                                        className="mr-2"
+                                        id={`time-${formatTime(hour, 30)}`}
+                                        value={formatTime(hour, 30)}
+                                        checked={selectedTimes.includes(formatTime(hour, 30))}
+                                        onChange={() => handleTimeChange(formatTime(hour, 30))}
+                                        className={`mr-2 ${occupiedTimes.includes(formatTime(hour, 30)) ? 'bg-red-500' : ''}`}
                                     />
-                                    <label htmlFor={`time-${hour}:30`} className="mr-4">{`${hour}:30`}</label>
+                                    <label
+                                        htmlFor={`time-${formatTime(hour, 30)}`}
+                                        className={`mr-4 ${occupiedTimes.includes(formatTime(hour, 30)) ? 'text-red-500' : ''}`}
+                                    >
+                                        {formatTime(hour, 30)}
+                                    </label>
                                 </div>
                             ))}
                         </div>
@@ -273,4 +294,16 @@ const UpdateAvailability = () => {
 };
 
 export default UpdateAvailability;
+
+
+
+
+
+
+
+
+
+
+
+
 
