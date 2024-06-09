@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import Cards from 'react-credit-cards-2';
-import GetAvailabilities from '../../data/GetAvailability.jsx';
+import GetOneTheacher from "../../data/GetOneTheacher.jsx";
 
 const PaymentModal = ({ isOpen, onClose, onPayment }) => {
     const [teacherData, setTeacherData] = useState(null);
@@ -10,8 +10,9 @@ const PaymentModal = ({ isOpen, onClose, onPayment }) => {
 
     useEffect(() => {
         const fetchTeacherDetails = async () => {
-            const data = await GetAvailabilities(teacherId);
-            setTeacherData(data[0].teacherDetails);
+            const data = await GetOneTheacher(teacherId);
+
+            setTeacherData(data);
         };
 
         fetchTeacherDetails();
