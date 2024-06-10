@@ -3,6 +3,7 @@ import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './upda.css';
+import Sppiner from "../Sppiner.jsx";
 
 const UpdateAvailability = () => {
     const [dates, setDates] = useState([]);
@@ -12,6 +13,8 @@ const UpdateAvailability = () => {
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [occupiedTimes, setOccupiedTimes] = useState([]);
     const [action, setAction] = useState(null); // 'add' or 'remove'
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchOccupiedDates = async () => {
@@ -124,6 +127,7 @@ const UpdateAvailability = () => {
 
     const handleSubmit = async () => {
                 try {
+                    setLoading(true);
                     if (action === 'add') {
                         for (const dateObj of dates) {
                             for (const time of dateObj.times) {
@@ -167,6 +171,9 @@ const UpdateAvailability = () => {
                 } catch (error) {
                     console.error('Error updating availability:', error);
                 }
+                finally {
+                    setLoading(false);
+                }
             };
 
 
@@ -191,6 +198,7 @@ const UpdateAvailability = () => {
 
     return (
         <div className="bg-gradient-to-r from-gray-100 to-gray-300 min-h-screen py-8">
+            <Sppiner loading={loading} />
             <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6">
                 <h1 className="text-4xl font-bold text-center text-blue-600 mb-6">עדכון זמינות</h1>
                 <div className="mb-4">
