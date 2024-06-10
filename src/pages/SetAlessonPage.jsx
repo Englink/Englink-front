@@ -199,7 +199,7 @@ const renderReviews = () => {
 
         return (
             <tr key={review._id}>
-                <td><img src={studentImage} alt={review.studentId.name} className="h-12 w-12 rounded-full"/></td>
+                <td><img src={studentImage} alt={review.studentId.name} className="h-12 w-12 rounded-full object-cover"/></td>
                 <td>{review.studentId.name}</td>
                 <td>{new Date(review.commentDate).toLocaleDateString('he-IL')}</td>
                 <td>{review.comment}</td>
