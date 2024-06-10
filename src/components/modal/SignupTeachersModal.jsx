@@ -44,7 +44,7 @@ function SignupTeachersModal() {
 
                     <div className=" mt-6 flex flex-col-4 items-center justify-between">
                         <a
-                            href="/singup-teachers"
+                            href="/signup-teachers"
                             onClick={closeModal}
                             className="relative inline-flex items-center px-8 py-3 overflow-hidden font-bold text-white bg-gradient-to-br from-hnav to-but rounded-full group mb-4"
                         >

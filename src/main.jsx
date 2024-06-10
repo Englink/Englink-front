@@ -82,7 +82,7 @@ const router = createBrowserRouter([
     }
     },
     {
-        path: '/singup-teachers',
+        path: '/signup-teachers',
         element: < SingUpTeachersPage/>,
         loader: async () => {
             try {

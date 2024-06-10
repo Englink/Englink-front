@@ -15,7 +15,7 @@ const MainPage = () => {
 
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 300]);
+    const [priceRange, setPriceRange] = useState([0, 100]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [expandedStates, setExpandedStates] = useState({});
@@ -84,7 +84,7 @@ const MainPage = () => {
                                 onChange={handlePriceChange}
                                 valueLabelDisplay="auto"
                                 min={0}
-                                max={300}
+                                max={100}
                                 step={10}
                                 sx={{
                                     direction: 'ltr', // ensure that the slider is oriented left-to-right
