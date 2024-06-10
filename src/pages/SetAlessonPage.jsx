@@ -8,6 +8,7 @@ import Sppiner from "../components/Sppiner.jsx";
 import GetReviews from "../data/GetReviews.jsx";
 import profile from "../images/profile.png";
 import StarRating from "../components/AvgRating.jsx";
+import GetTeacherById from "../data/GetOneTheacher.jsx";
 
 
 const SetAlessonPage = () => {
@@ -19,6 +20,7 @@ const SetAlessonPage = () => {
     const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
     const [currentWeek, setCurrentWeek] = useState(getCurrentWeek());
     const [reviews, setReviews] = useState([])
+    const [teacherditals, setTeacherditals] = useState([])
 
     useEffect(() => {
 
@@ -26,6 +28,8 @@ const SetAlessonPage = () => {
             setLoading(true)
             try {
                 const teacherId = JSON.parse(localStorage.getItem('teacherId'));
+                const teacherditals = await GetTeacherById(teacherId);
+                setTeacherditals(teacherditals);
 
                 const data = await GetAvailabilities(teacherId);
                 setTeacherData(data[0].teacherDetails);
@@ -185,43 +189,40 @@ const SetAlessonPage = () => {
         );
     };
 
-
     const renderReviews = () => {
         if (!reviews) {
             return null;
         }
 
-        return (
-            <div className="grid gap-4">
+        return reviews.map((review, index) => {
+            const studentImage = review.studentId.image ? `http://localhost:3003/${review.studentId.image}` : profile;
 
-                {reviews.map((review) => {
-                    const studentImage = review.studentId.image ? `http://localhost:3003/${review.studentId.image}` : profile;
-
-                    return (
-                        <div key={review._id}
-                             className="bg-white rounded-lg shadow-md p-4 grid grid-cols-4 gap-4 items-center">
-                            <div className="col-span-1 text-gray-500">
-                                תמונה: <img src={studentImage} alt={review.studentId.name}
-                                            className="h-12 w-12 rounded-full"/>
-                            </div>
-                            <div className="col-span-1 text-gray-500">תלמיד: {review.studentId.name}</div>
-                            <div
-                                className="col-span-1 text-gray-500">תאריך: {new Date(review.commentDate).toLocaleDateString('he-IL')}</div>
-                            <div className="col-span-2 text-gray-700">{review.comment}</div>
-                            <div className="col-span-1 text-yellow-500 flex justify-end items-center">
+            return (
+                <React.Fragment key={review._id}>
+                    <tr>
+                        <td className="border-r border-gray-300 px-4 py-2"><img src={studentImage} alt={review.studentId.name} className="h-12 w-12 rounded-full object-cover"/></td>
+                        <td className="border-r border-gray-300 px-4 py-2">{review.studentId.name}</td>
+                        <td className="border-r border-gray-300 px-4 py-2">{new Date(review.commentDate).toLocaleDateString('he-IL')}</td>
+                        <td className="border-r border-gray-300 px-4 py-2">{review.comment}</td>
+                        <td className="px-4 py-2">
+                            <div className="flex items-center ">
                                 <span className="mr-1">{review.stars}</span>
-                                <svg className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                                <svg className="h-5 w-5 fill-current text-yellow-500" viewBox="0 0 20 20">
                                     <path
                                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
                             </div>
-                        </div>
-                    );
-                })}
-            </div>
-        );
+                        </td>
+                    </tr>
+                    {index !== reviews.length - 1 && (
+                        <tr>
+                            <td colSpan="5" className="border-b border-gray-300 py-2"></td>
+                        </tr>
+                    )}
+                </React.Fragment>
+            );
+        });
     };
-
     // console.log(teacherData.price)
 return (
     <>
@@ -231,18 +232,18 @@ return (
             <h1 className="text-6xl font-bold mt-8 text-center text-hnav">{teacherData.name}</h1>
             {/*{console.log(teacherData.image)}*/}
 <img className="h-44 w-44 rounded-full mt-5 mx-auto border-2 border-purple object-cover"
-     src={teacherData.image ? `http://localhost:3003/${teacherData.image}` : profile} alt={profile}/>
+     src={teacherditals.image ? `http://localhost:3003/${teacherditals.image}` : profile} alt={profile}/>
             <div className='mt-5 mb-5'>
                 <p className='text-center'>דירוג ממוצע</p>
-                <StarRating teacherId={teacherData._id}/>
+                <StarRating teacherId={teacherditals._id}/>
             </div>
             <div>
 
-                <p className='text-center'>מחיר לשיעור: {teacherData.price} ש"ח</p>
+                <p className='text-center'>מחיר לשיעור: {teacherditals.price} ש"ח</p>
             </div>
             <p className='text-center font-bold'>קצת עלי: </p>
             <h3 className="text-lg font-medium mb-2 text-center text-purple bg-gray-200 p-2 rounded-lg">
-                {teacherData.desc}
+                {teacherditals.desc}
             </h3>
 
             <h1 className="text-4xl font-bold mb-4 mt-10 text-center text-hnav">לוח זמינות שיעורים</h1>
@@ -294,13 +295,29 @@ return (
                 </button>
                 <PaymentModal isOpen={isPaymentModalOpen} onClose={() => setPaymentModalOpen(false)}
                               onPayment={handleSetLesson}/>
-                <div className="flex justify-between items-center mt-20 rounded-lg p-4 bg-blue-100">
-                    <div className="flex-grow border-2 border-blue-500 p-4 rounded-lg bg-white">
-                        <h1 className="text-xl font-bold text-blue-500 border-b-2 border-blue-500 pb-2 mb-4">פידבקים
-                            על מורה:</h1>
-                        {renderReviews()}
-                    </div>
-                </div>
+<div className="flex justify-between items-center mt-20 rounded-lg p-4 w-full">
+    <div className="flex-grow border-2 p-4 rounded-lg bg-white">
+        <h1 className="text-xl font-bold text-blue-500 border-b-2 border-blue-500 pb-2 mb-4 text-center">פידבקים על מורה:</h1>
+        <table className="table-auto w-full">
+            <thead>
+                <tr>
+                    <th className="px-4 py-2">תמונה</th>
+                    <th className="px-4 py-2">תלמיד</th>
+                    <th className="px-4 py-2">תאריך</th>
+                    <th className="px-4 py-2">תגובה</th>
+                    <th className="px-4 py-2">דירוג</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {renderReviews()}
+
+            </tbody>
+        </table>
+    </div>
+</div>
             </div>
         </div>
     </>

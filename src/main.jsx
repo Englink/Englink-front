@@ -17,6 +17,7 @@ import UpdateAvailability from './components/forteacher/UpdateAvailability.jsx';
 import SetAlessonPage from './pages/SetAlessonPage.jsx';
 import EditProfile from './components/forteacher/EditProfile.jsx';
 import FeedbackForm from "./components/FeedbackForm.jsx";
+import NotFound404 from "./pages/ErrorPage.jsx";
 
 
 
@@ -82,7 +83,7 @@ const router = createBrowserRouter([
     }
     },
     {
-        path: '/singup-teachers',
+        path: '/signup-teachers',
         element: < SingUpTeachersPage/>,
         loader: async () => {
             try {
@@ -155,6 +156,10 @@ const router = createBrowserRouter([
             return redirect('/login-teachers')
         }
     }
+    },
+    {
+        path: '*',
+        element: <NotFound404 />
     }
     
 

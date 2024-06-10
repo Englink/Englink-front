@@ -28,7 +28,7 @@ const TeacherPage = () => {
             <main className="flex-grow container mx-auto p-8 flex flex-row-reverse items-start">
                 <div className=''>
                     <div className='ml-20'>
-                        <p className="text-2xl font-semibold mt-4 underline">מה הדירוג שלי: </p>
+                        <p className="text-2xl font-semibold mt-4 underline text-center">מה הדירוג שלי: </p>
                         <AvgRating teacherId={userInfo._id}/>
                     </div>
 
@@ -49,6 +49,11 @@ const TeacherPage = () => {
                     <div className="text-center bg-white p-6 rounded-lg shadow-lg w-1/2">
                         <p className="text-2xl font-semibold mb-2 underline">קצת על עצמי: </p>
                         <p className="text-xl text-gray-700"> {userInfo.desc}</p>
+                    </div>
+
+                    <div>
+                        <p className="text-2xl font-semibold mt-4 underline text-center">מחיר לשיעור : </p>
+                        <p className="text-xl text-gray-700 text-center">{userInfo.price} ש"ח</p>
                     </div>
 
                 </div>
