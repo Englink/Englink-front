@@ -1,8 +1,9 @@
+// StarRating.jsx
 import React, { useEffect, useState } from 'react';
 import GetReviews from "../data/GetReviews.jsx";
 import StarRatings from 'react-star-ratings';
 
-const StarRating = ({ teacherId }) => {
+const StarRating = ({ teacherId, onAverageCalculated }) => {
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
 
@@ -16,8 +17,8 @@ const StarRating = ({ teacherId }) => {
                 } else {
                     console.error('Invalid response from server');
                 }
-            } catch  {
-                console.log("error from get reviews")
+            } catch (error) {
+                console.log("error from get reviews", error);
             }
         };
 
@@ -27,6 +28,7 @@ const StarRating = ({ teacherId }) => {
     const calculateAverageRating = (comments) => {
         if (!comments || comments.length === 0) {
             setAverageRating(0);
+            onAverageCalculated(0); // Notify parent about the rating
             return;
         }
 
@@ -34,6 +36,7 @@ const StarRating = ({ teacherId }) => {
         const avgRating = totalStars / comments.length;
         const adjustedRating = Math.round(avgRating * 2) / 2;
         setAverageRating(adjustedRating);
+        onAverageCalculated(adjustedRating); // Notify parent about the rating
     };
 
     return (
