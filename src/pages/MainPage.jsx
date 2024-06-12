@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { GetTeachers } from "../data/GetTeachers";
+// MainPage.jsx
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, {useState, useEffect} from "react";
+import {GetTeachers} from "../data/GetTeachers";
 import Navbar from "../components/header/NavBar";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import FullScreenImage from "../components/header/imagestudent.jsx";
 import Spinner from "../components/Sppiner.jsx";
 import StarRating from "../components/AvgRating.jsx";
 import profile from "../images/profile.png";
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
+import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
+
+
 
 const MainPage = () => {
     let user = localStorage.getItem("userInfo");
@@ -15,7 +20,9 @@ const MainPage = () => {
 
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
+    const [genderFilter, setGenderFilter] = useState('');
     const [priceRange, setPriceRange] = useState([0, 100]);
+    const [ratingRange, setRatingRange] = useState([0, 5]); // משתנה חדש לסינון לפי דירוג כוכבים
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [expandedStates, setExpandedStates] = useState({});
@@ -25,7 +32,8 @@ const MainPage = () => {
             setLoading(true);
             try {
                 const res = await GetTeachers();
-                setTeachers(res.data.teachers);
+                const teachersWithRatings = res.data.teachers.map(teacher => ({...teacher, averageRating: 0}));
+                setTeachers(teachersWithRatings);
             } catch (error) {
                 console.error("Failed to fetch teachers", error);
             } finally {
@@ -35,11 +43,30 @@ const MainPage = () => {
         fetchTeachers();
     }, []);
 
-    const filteredTeachers = teachers.filter((teacher) => {
-        const matchesName = teacher.name.toLowerCase().includes(query.toLowerCase());
-        const matchesPrice = teacher.price >= priceRange[0] && teacher.price <= priceRange[1];
-        return matchesName && matchesPrice;
-    });
+    const handleAverageRating = (teacherId, averageRating) => {
+        setTeachers(prevTeachers =>
+            prevTeachers.map(teacher =>
+                teacher._id === teacherId ? {...teacher, averageRating} : teacher
+            )
+        );
+    };
+
+    const filteredTeachers = teachers
+        .filter((teacher) => {
+            const matchesName = teacher.name.toLowerCase().includes(query.toLowerCase());
+            const matchesPrice = teacher.price >= priceRange[0] && teacher.price <= priceRange[1];
+            const matchesRating = teacher.averageRating >= ratingRange[0] && teacher.averageRating <= ratingRange[1];
+            return matchesName && matchesPrice && matchesRating;
+        })
+        .filter((teacher) => {
+            if (genderFilter === 'male') {
+                return teacher.gender === 'male';
+            } else if (genderFilter === 'female') {
+                return teacher.gender === 'female';
+            } else {
+                return true; // אם לא נבחר מגדר ספציפי, החזר את כל המורים
+            }
+        });
 
     const handleSetLesson = (teacherId) => {
         localStorage.setItem('teacherId', JSON.stringify(teacherId));
@@ -57,6 +84,10 @@ const MainPage = () => {
         setPriceRange(newValue);
     };
 
+    const handleRatingChange = (event, newValue) => {
+        setRatingRange(newValue);
+    };
+
     return (
         <>
             <Spinner loading={loading}/>
@@ -66,19 +97,19 @@ const MainPage = () => {
             <FullScreenImage/>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-                <div className="search-container mb-8">
+                <div className="search-container mb-8 bg-hnav rounded-full">
                     <div className="relative mb-4">
                         <input
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
-                            className="search-container text-hnav w-full mb-4"
+                            className="search-container text-white w-full mb-4"
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
                     <div className="mt-4 mr-16 text-center">
-                        <p className=" text-center"> בחר טווח מחירים:</p>
-                        <Box sx={{ width: 300, margin: '0 auto' }}>
+                        <p className="text-center text-white">בחר טווח מחירים:</p>
+                        <Box sx={{width: 300, margin: '0 auto'}}>
                             <Slider
                                 value={priceRange}
                                 onChange={handlePriceChange}
@@ -87,13 +118,67 @@ const MainPage = () => {
                                 max={100}
                                 step={10}
                                 sx={{
-                                    direction: 'ltr', // ensure that the slider is oriented left-to-right
+                                    direction: 'ltr',
+                                    width: '200px', // Change the width here
                                 }}
                             />
                         </Box>
-                        <div className="flex justify-between mt-2 text-hnav">
+                        <div className="flex justify-between mt-2 text-white">
                             <span>{priceRange[1]} ש"ח</span>
                             <span>{priceRange[0]} ש"ח</span>
+                        </div>
+                    </div>
+                    <div className="mt-4 mr-16 text-center">
+                        <p className="text-center text-white">בחר דירוג כוכבים:</p>
+                        <Box sx={{width: 300, margin: '0 auto'}}>
+                            <Slider
+                                value={ratingRange}
+                                onChange={handleRatingChange}
+                                valueLabelDisplay="auto"
+                                min={0}
+                                max={5}
+                                step={0.5}
+                                sx={{
+                                    direction: 'ltr',
+                                    width: '200px', // Change the width here
+                                    color: '#ffd701',
+                                    '& .MuiSlider-thumb': {
+                                        backgroundColor: '#ffd701',
+                                    },
+                                    '& .MuiSlider-track': {
+                                        backgroundColor: '#ffd701',
+                                    },
+                                    '& .MuiSlider-rail': {
+                                        backgroundColor: 'lightgray',
+                                    },
+                                }}
+                            />
+                        </Box>
+                        <div className="flex justify-between mt-2 text-white">
+                            <span>{ratingRange[1]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
+                            <span>{ratingRange[0]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
+                        </div>
+                    </div>
+                    <div className="mt-4 mr-10 text-center">
+                        <p className="text-center text-white">בחר מגדר:</p>
+                        <div
+                            className="flex justify-center text-sm space-x-4"> {/* Add space-x-4 to add space between buttons */}
+                            <button
+                                className={`mr-2 px-6 py-3 rounded-full ${
+                                    genderFilter === 'male' ? 'bg-purple-500 text-white' : 'bg-white text-purple-500'
+                                }`}
+                                onClick={() => setGenderFilter(genderFilter === 'male' ? '' : 'male')}
+                            >
+                                <FontAwesomeIcon icon={faMale}/> {/* FontAwesome icon for man */}
+                            </button>
+                            <button
+                                className={`px-6 py-3 rounded-full ${
+                                    genderFilter === 'female' ? 'bg-purple-500 text-white' : 'bg-white text-purple-500'
+                                }`}
+                                onClick={() => setGenderFilter(genderFilter === 'female' ? '' : 'female')}
+                            >
+                                <FontAwesomeIcon icon={faFemale}/> {/* FontAwesome icon for woman */}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -127,7 +212,8 @@ const MainPage = () => {
                                 >
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
-                                <StarRating teacherId={teacher._id}/>
+                                <StarRating teacherId={teacher._id}
+                                            onAverageCalculated={(rating) => handleAverageRating(teacher._id, rating)}/>
                                 <div className='mb-4'>
                                     <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>
                                 </div>
@@ -137,7 +223,7 @@ const MainPage = () => {
                                     className="btn relative inline-flex items-center justify-center px-5 py-2.5 overflow-hidden font-medium tracking-wide text-white bg-purple rounded-full focus:outline-none focus:ring transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:bg-indigo-400"
                                 >
                                     <span
-                                        className="animate-ping absolute inline-flex h-full w-full rounded-full  opacity-75"></span>
+                                        className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
                                     קבע שיעור
                                 </button>
                             </div>
