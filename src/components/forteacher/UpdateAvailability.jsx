@@ -28,21 +28,16 @@ const UpdateAvailability = () => {
                 const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
                 if (response.data.status === 'success') {
                     const availabilities = response.data.teacherAvailability;
-                    // console.log(availabilities);
                     const occupied = {};
                     availabilities.forEach(availability => {
                         const date = new Date(availability.date);
-                        // console.log(date);
                         const dateString = date.toLocaleDateString();
-                        // console.log(dateString);
                         const timeString = formatTime(date.getHours(), date.getMinutes());
-                        // console.log(timeString);
                         if (!occupied[dateString]) {
                             occupied[dateString] = [];
                         }
                         occupied[dateString].push(timeString);
                     });
-                    // console.log(occupied);
                     setOccupiedDates(occupied);
                 }
                 
@@ -126,55 +121,56 @@ const UpdateAvailability = () => {
     };
 
     const handleSubmit = async () => {
-                try {
-                    setLoading(true);
-                    if (action === 'add') {
-                        for (const dateObj of dates) {
-                            for (const time of dateObj.times) {
-                                const [hour, minute] = time.split(':');
-                                const [day, month, year] = dateObj.date.split('.')
-                                const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
-                                    date: {
-                                        year: year,
-                                        month: month,
-                                        day: day,
-                                        hour: hour,
-                                        minute: minute
-                                    }
-                                }, { withCredentials: true });
-                                console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
+        try {
+            setLoading(true);
+            if (action === 'add') {
+                for (const dateObj of dates) {
+                    for (const time of dateObj.times) {
+                        const [hour, minute] = time.split(':');
+                        const [day, month, year] = dateObj.date.split('.')
+                        const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
+                            date: {
+                                year: year,
+                                month: month,
+                                day: day,
+                                hour: hour,
+                                minute: minute
                             }
-                        }
-                    } else if (action === 'remove') {
-                        const datess = []
-                        for (const dateObj of dates) {
-                            const timeInDays = dateObj.times.map((time) => {
-                                const [day, month, year] = dateObj.date.split('.')
-                                const [hour, minute] = time.split(':');
-                                const dateToDelete = new Date(year, month - 1, day, hour, minute)
-                                return dateToDelete
-                            })
-                            datess.push(...timeInDays)
-                        }
-                        
-                        const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
-                            datess
                         }, { withCredentials: true });
-                        console.log('Availability updated successfully for dates and times:', response.data);
+                        console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
                     }
-                    
-                    setDates([]);
-                    setSelectedDate(new Date());
-                    setSelectedTimes([]);
-                    setShowTimePicker(false);
-                    setAction(null);
-                } catch (error) {
-                    console.error('Error updating availability:', error);
                 }
-                finally {
-                    setLoading(false);
+            } else if (action === 'remove') {
+                const datess = []
+                for (const dateObj of dates) {
+                    const timeInDays = dateObj.times.map((time) => {
+                        const [day, month, year] = dateObj.date.split('.')
+                        const [hour, minute] = time.split(':');
+                        const dateToDelete = new Date(year, month - 1, day, hour, minute)
+                        return dateToDelete
+                    })
+                    datess.push(...timeInDays)
                 }
-            };
+                
+                const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
+                    datess
+                }, { withCredentials: true });
+                console.log('Availability updated successfully for dates and times:', response.data);
+            }
+            
+            setDates([]);
+            setSelectedDate(new Date());
+            setSelectedTimes([]);
+            setShowTimePicker(false);
+            setAction(null);
+            
+            alert('המערכת התעדכנה בהצלחה');
+        } catch (error) {
+            console.error('Error updating availability:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     const handleCancelSelection = (index) => {
@@ -302,16 +298,5 @@ const UpdateAvailability = () => {
 };
 
 export default UpdateAvailability;
-
-
-
-
-
-
-
-
-
-
-
 
 
