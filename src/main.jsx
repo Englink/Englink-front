@@ -18,6 +18,8 @@ import SetAlessonPage from './pages/SetAlessonPage.jsx';
 import EditProfile from './components/forteacher/EditProfile.jsx';
 import FeedbackForm from "./components/FeedbackForm.jsx";
 import NotFound404 from "./pages/ErrorPage.jsx";
+import ForgotPassword from './pages/ForgetPasswordPage.jsx';
+import ResetPassword from './pages/ResetPasswordPage.jsx';
 
 
 
@@ -157,6 +159,18 @@ const router = createBrowserRouter([
         }
     }
     },
+    {
+        path: '/forget-password',
+        element: < ForgotPassword/>,
+        
+    }
+    ,
+    {
+        path: '/reset-password/:token',
+        element: < ResetPassword/>,
+        
+    }
+    ,
     {
         path: '*',
         element: <NotFound404 />

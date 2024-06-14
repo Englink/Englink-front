@@ -8,6 +8,13 @@ function LoginTeacherPage() {
     const [userPassword, setUserPassword] = useState('');
     const navigate = useNavigate();
 
+    function handleForgotPasswordClick(event) {
+      event.preventDefault(); // Prevent the default link behavior
+        navigate('/forget-password?role=teacher'); // Pass role as URL parameter
+      };
+  
+    
+
     return (
         <div className="relative flex flex-col h-screen font-sans">
           {/* Image and background */}
@@ -32,6 +39,14 @@ function LoginTeacherPage() {
                   onChange={(e) => setUserName(e.target.value)}
                   className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
                 />
+                            <a
+                href="#"
+                className="block text-sm text-gray hover:text-bluedark text-right py-1"
+                onClick={handleForgotPasswordClick}
+            >
+                שכחת סיסמה?
+            </a>
+
               </div>
               <div className="mb-4 text-right">
                 <input
@@ -47,6 +62,7 @@ function LoginTeacherPage() {
               <button
                 type="submit"
                 className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+
               >
                 התחבר
               </button>
