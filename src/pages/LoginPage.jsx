@@ -2,16 +2,26 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Spinner from "../components/Sppiner.jsx";
+import ForgotPassword from './ForgetPasswordPage.jsx';
 
 function LoginPage() {
   const navigate = useNavigate()
   const [userMail, setuserMail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false);
+  
+  function handleForgotPasswordClick(event) {
+    event.preventDefault(); // Prevent the default link behavior
+      navigate('/forget-password?role=student'); // Pass role as URL parameter
+    
+  
 
+  };
   const handleLogin = async (e) => {
     setLoading(true)
     e.preventDefault()
+    
+    
 
     try {
       const {data} = await axios.post('http://localhost:3003/api/students/login', {
@@ -66,20 +76,26 @@ function LoginPage() {
               onChange={(e) => setUserPassword(e.target.value)}
               className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
             />
-            <a href="#" className="block text-sm text-gray hover:text-bluedark text-right py-1">
-              שכחת סיסמה?
+            <a
+                href="#"
+                className="block text-sm text-gray hover:text-bluedark text-right py-1"
+                onClick={handleForgotPasswordClick}
+            >
+                שכחת סיסמה?
             </a>
-          </div>
+
+        </div>
           <button
             type="submit"
             className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+            >
             התחבר
           </button>
         </form>
       </div>
     </div>
   );
+
   
 }
 
