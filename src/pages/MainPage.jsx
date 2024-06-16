@@ -21,7 +21,7 @@ const MainPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
     const [genderFilter, setGenderFilter] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [priceRange, setPriceRange] = useState([20, 100]);
     const [ratingRange, setRatingRange] = useState([0, 5]); // משתנה חדש לסינון לפי דירוג כוכבים
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -116,7 +116,7 @@ const MainPage = () => {
                                 value={priceRange}
                                 onChange={handlePriceChange}
                                 valueLabelDisplay="auto"
-                                min={0}
+                                min={20}
                                 max={100}
                                 step={10}
                                 sx={{
