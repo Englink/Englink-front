@@ -98,16 +98,18 @@ const MainPage = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
                 <div className="search-container mb-8 bg-hnav rounded-full">
-                    <div className="relative mb-4">
+                    <div className="relative mb-4 ">
                         <input
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
-                            className="search-container text-white w-full mb-4"
+                            className="search-container text-white mb-4"
+                            style={{width: '70%'}} // Custom width
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
-                    <div className="mt-4 mr-16 text-center">
+
+                    <div className="mt-4 text-center">
                         <p className="text-center text-white">בחר טווח מחירים:</p>
                         <Box sx={{width: 300, margin: '0 auto'}}>
                             <Slider
@@ -129,7 +131,7 @@ const MainPage = () => {
                         </div>
                     </div>
                     <div className="mt-4 mr-16 text-center">
-                        <p className="text-center text-white">בחר דירוג כוכבים:</p>
+                        <p className="text-center text-white">בחר ממוצע דירוגים:</p>
                         <Box sx={{width: 300, margin: '0 auto'}}>
                             <Slider
                                 value={ratingRange}
@@ -159,28 +161,29 @@ const MainPage = () => {
                             <span>{ratingRange[0]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
                         </div>
                     </div>
+
                     <div className="mt-4 mr-10 text-center">
-                        <p className="text-center text-white">בחר מגדר:</p>
-                        <div
-                            className="flex justify-center text-sm space-x-4"> {/* Add space-x-4 to add space between buttons */}
+                        <p className="text-center text-white mb-2">בחר מגדר:</p>
+                        <div className="flex justify-center text-sm"> {/* Removed space-x-4 */}
                             <button
-                                className={`mr-2 px-6 py-3 rounded-full ${
-                                    genderFilter === 'male' ? 'bg-purple-500 text-white' : 'bg-white text-purple-500'
+                                className={`mx-2 px-2 py-2 rounded-full ${
+                                    genderFilter === 'male' ? 'bg-cyan-800 text-white' : 'bg-cyan-400 text-purple-500'
                                 }`}
                                 onClick={() => setGenderFilter(genderFilter === 'male' ? '' : 'male')}
                             >
-                                <FontAwesomeIcon icon={faMale}/> {/* FontAwesome icon for man */}
+                                <FontAwesomeIcon icon={faMale} size="2x"/> {/* FontAwesome icon for man */}
                             </button>
                             <button
-                                className={`px-6 py-3 rounded-full ${
-                                    genderFilter === 'female' ? 'bg-purple-500 text-white' : 'bg-white text-purple-500'
+                                className={`mx-2 px-2 py-2 rounded-full ${
+                                    genderFilter === 'female' ? 'bg-pink-700 text-white' : 'bg-pink-300 text-purple-500'
                                 }`}
                                 onClick={() => setGenderFilter(genderFilter === 'female' ? '' : 'female')}
                             >
-                                <FontAwesomeIcon icon={faFemale}/> {/* FontAwesome icon for woman */}
+                                <FontAwesomeIcon icon={faFemale} size="2x"/> {/* FontAwesome icon for woman */}
                             </button>
                         </div>
                     </div>
+
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
