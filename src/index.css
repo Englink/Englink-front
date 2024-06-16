@@ -5,7 +5,7 @@
 /* src/index.css או src/main.css */
 
 body {
-    font-family: AppleGothic;
+    font-family: sans-serif AppleGothic;
     direction: rtl; /* הוספת כיוון כתיבה מימין לשמאל */
     text-align: right; /* יישור טקסט לימין */
     background-color: #f5f7fa;
