@@ -161,6 +161,7 @@ const MainPage = () => {
                             <span>{ratingRange[0]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
                         </div>
                     </div>
+
                     <div className="mt-4 mr-10 text-center">
                         <p className="text-center text-white mb-2">בחר מגדר:</p>
                         <div className="flex justify-center text-sm"> {/* Removed space-x-4 */}
