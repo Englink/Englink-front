@@ -35,7 +35,7 @@ const MyLessons = () => {
     return (
         <>
             <NavBar />
-            <div className="min-h-screen bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-8">
+            <div className="min-h-screen m-auto from-blue-600 via-blue-500 to-blue-400 p-8 max-w-7xl">
                 <div className="container mx-auto">
                     <div className="text-center mb-8">
                         <h1 className="text-4xl font-bold text-hnav mb-2">השיעורים שלי</h1>
@@ -58,8 +58,8 @@ const MyLessons = () => {
                                 <div key={lesson._id} className="bg-white rounded-lg overflow-hidden shadow-lg text-center">
                                     <div className="p-6">
                                         <div className="flex items-center mb-4">
-                                            <img src={`http://localhost:3003/${lesson.teacherDetails.image}`} alt={lesson.teacherDetails.name} className="w-16 h-16 rounded-full mr-4" />
-                                            <h2 className="text-xl font-semibold text-gray-800">{lesson.teacherDetails.name}</h2>
+                                            <img src={`http://localhost:3003/${lesson.teacherDetails.image}`} alt={lesson.teacherDetails.name} className="w-16 h-16 rounded-full mr-4 object-cover" />
+                                            <h2 className="text-xl font-semibold text-gray-800 px-[10px]">{lesson.teacherDetails.name}</h2>
                                         </div>
                                         <p className="text-gray-600 mb-2">נושא: {lesson.subject || "שיעור פרטי אנגלית"}</p>
                                         <p className="text-gray-600 mb-2">תאריך: {formattedDate}</p>

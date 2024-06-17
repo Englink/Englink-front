@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Spinner from "../components/Sppiner.jsx";
-import ForgotPassword from './ForgetPasswordPage.jsx';
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -13,10 +12,10 @@ function LoginPage() {
   function handleForgotPasswordClick(event) {
     event.preventDefault(); // Prevent the default link behavior
       navigate('/forget-password?role=student'); // Pass role as URL parameter
+    };
     
   
 
-  };
   const handleLogin = async (e) => {
     setLoading(true)
     e.preventDefault()
