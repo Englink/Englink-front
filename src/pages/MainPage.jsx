@@ -21,7 +21,7 @@ const MainPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
     const [genderFilter, setGenderFilter] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [priceRange, setPriceRange] = useState([20, 100]);
     const [ratingRange, setRatingRange] = useState([0, 5]); // משתנה חדש לסינון לפי דירוג כוכבים
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -104,7 +104,9 @@ const MainPage = () => {
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
                             className="search-container text-white mb-4"
-                            style={{width: '70%'}} // Custom width
+
+                            style={{width: '80%'}} // Custom width
+
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
@@ -116,7 +118,7 @@ const MainPage = () => {
                                 value={priceRange}
                                 onChange={handlePriceChange}
                                 valueLabelDisplay="auto"
-                                min={0}
+                                min={20}
                                 max={100}
                                 step={10}
                                 sx={{
@@ -161,6 +163,7 @@ const MainPage = () => {
                             <span>{ratingRange[0]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
                         </div>
                     </div>
+
                     <div className="mt-4 mr-10 text-center">
                         <p className="text-center text-white mb-2">בחר מגדר:</p>
                         <div className="flex justify-center text-sm"> {/* Removed space-x-4 */}

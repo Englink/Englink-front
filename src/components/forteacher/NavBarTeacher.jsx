@@ -36,8 +36,8 @@ const NavBar = () => {
   const userImage = user.image ? `http://localhost:3003/${user.image}` : profile;
 
   return (
-      <nav className="bg-hnav text-but w-full z-50 shadow-md relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative">
+      <nav className="bg-hnav text-but w-full z-50 shadow-md relative max-w-7xl m-auto">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative">
           {/* לוגו למסכים קטנים - ממוקם באמצע באמצעות absolute positioning */}
           <div className="flex md:hidden justify-center flex-grow absolute left-1/2 transform -translate-x-1/2">
             <a href="#" className="text-but font-bold text-xl animate-pulse">
