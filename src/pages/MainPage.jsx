@@ -104,7 +104,9 @@ const MainPage = () => {
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
                             className="search-container text-white mb-4"
+
                             style={{width: '80%'}} // Custom width
+
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
