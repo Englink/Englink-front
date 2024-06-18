@@ -97,7 +97,7 @@ const MainPage = () => {
             <FullScreenImage/>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-                <div className="search-container mb-8 bg-hnav rounded-full">
+                <div className="search-container mb-2 bg-hnav rounded-full">
                     <div className="relative mb-4 ">
                         <input
                             id="search"
