@@ -21,7 +21,7 @@ const MainPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [query, setQuery] = useState('');
     const [genderFilter, setGenderFilter] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [priceRange, setPriceRange] = useState([20, 100]);
     const [ratingRange, setRatingRange] = useState([0, 5]); // משתנה חדש לסינון לפי דירוג כוכבים
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -97,14 +97,16 @@ const MainPage = () => {
             <FullScreenImage/>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-                <div className="search-container mb-8 bg-hnav rounded-full">
+                <div className="search-container mb-2 bg-hnav rounded-full">
                     <div className="relative mb-4 ">
                         <input
                             id="search"
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
                             className="search-container text-white mb-4"
-                            style={{width: '70%'}} // Custom width
+
+                            style={{width: '80%'}} // Custom width
+
                             onInput={(event) => setQuery(event.target.value)}
                         />
                     </div>
@@ -116,7 +118,7 @@ const MainPage = () => {
                                 value={priceRange}
                                 onChange={handlePriceChange}
                                 valueLabelDisplay="auto"
-                                min={0}
+                                min={20}
                                 max={100}
                                 step={10}
                                 sx={{
