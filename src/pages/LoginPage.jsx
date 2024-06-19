@@ -56,7 +56,7 @@ function LoginPage() {
           <div className="mb-4 text-right">
             <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
             <input
-              placeholder="שם משתמש"
+              placeholder="אימייל"
               type="text"
               id="userMail"
               autoComplete="off"
