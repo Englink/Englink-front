@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './upda.css';
-import Sppiner from "../Sppiner.jsx";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
+import './upda.css'
+import Sppiner from "../Sppiner.jsx"
+
 
 const UpdateAvailability = () => {
     const [dates, setDates] = useState([]);
@@ -15,40 +16,38 @@ const UpdateAvailability = () => {
     const [action, setAction] = useState(null); // 'add' or 'remove'
     const [loading, setLoading] = useState(false);
 
+    const fetchOccupiedDates = async () => {
+        try {
+            const userInfoString = localStorage.getItem('userInfo');
+            let userInfoObj = null;
+            if (userInfoString) {
+                userInfoObj = JSON.parse(userInfoString);
+            }
+
+            const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
+            if (response.data.status === 'success') {
+                const availabilities = response.data.teacherAvailability;
+                const occupied = {};
+                availabilities.forEach(availability => {
+                    const date = new Date(availability.date);
+                    const dateString = date.toLocaleDateString();
+                    const timeString = formatTime(date.getHours(), date.getMinutes());
+                    if (!occupied[dateString]) {
+                        occupied[dateString] = [];
+                    }
+                    occupied[dateString].push(timeString);
+                });
+                setOccupiedDates(occupied);
+            }
+            
+        } catch (error) {
+            console.error('Error fetching occupied dates:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchOccupiedDates = async () => {
-            try {
-                const userInfoString = localStorage.getItem('userInfo');
-                let userInfoObj = null;
-                if (userInfoString) {
-                    userInfoObj = JSON.parse(userInfoString);
-                }
-
-                const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
-                if (response.data.status === 'success') {
-                    const availabilities = response.data.teacherAvailability;
-                    const occupied = {};
-                    availabilities.forEach(availability => {
-                        const date = new Date(availability.date);
-                        const dateString = date.toLocaleDateString();
-                        const timeString = formatTime(date.getHours(), date.getMinutes());
-                        if (!occupied[dateString]) {
-                            occupied[dateString] = [];
-                        }
-                        occupied[dateString].push(timeString);
-                    });
-                    setOccupiedDates(occupied);
-                }
-                
-            } catch (error) {
-                console.error('Error fetching occupied dates:', error);
-            }
-        };
-
         fetchOccupiedDates();
     }, []);
-
 
     const formatTime = (hour, minute = 0) => {
         return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
@@ -60,7 +59,6 @@ const UpdateAvailability = () => {
         setOccupiedTimes(occupiedDates[dateString] || []);
         setShowTimePicker(true);
     };
-
 
     const handleAddDateTime = () => {
         setAction('add');
@@ -165,13 +163,13 @@ const UpdateAvailability = () => {
             setAction(null);
             
             alert('המערכת התעדכנה בהצלחה');
+            fetchOccupiedDates()
         } catch (error) {
             console.error('Error updating availability:', error);
         } finally {
             setLoading(false);
         }
     };
-
 
     const handleCancelSelection = (index) => {
         const newDates = dates.filter((_, i) => i !== index);
@@ -297,6 +295,4 @@ const UpdateAvailability = () => {
     );
 };
 
-export default UpdateAvailability;
-
-
+export default UpdateAvailability

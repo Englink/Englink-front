@@ -23,13 +23,12 @@ const onSubmit = async (data) => {
 
         if (response.status === 201) {
             alert('ההרשמה הצליחה');
-            window.location.href = '/login';
+            window.location.href = '/login-teachers';
         } else {
             console.error('נכשל בתהליך ההרשמה');
         }
     } catch (error) {
         console.log(data)
-        // console.error('שגיאה במהלך ההרשמה:', error);
         alert('שגיאה במהלך ההרשמה:', error)
     }
 };

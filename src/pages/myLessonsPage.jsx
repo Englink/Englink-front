@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from "../components/header/NavBar.jsx";
-
+import profile from "../images/profile.png"
 
 
 const MyLessons = () => {
@@ -58,7 +58,11 @@ const MyLessons = () => {
                                 <div key={lesson._id} className="bg-white rounded-lg overflow-hidden shadow-lg text-center">
                                     <div className="p-6">
                                         <div className="flex items-center mb-4">
-                                            <img src={`http://localhost:3003/${lesson.teacherDetails.image}`} alt={lesson.teacherDetails.name} className="w-16 h-16 rounded-full mr-4 object-cover" />
+                                            <img 
+                                            src={lesson.teacherDetails.image ? `http://localhost:3003/${lesson.teacherDetails.image}` : profile} 
+                                            alt="teacherImage" 
+                                            className="w-16 h-16 rounded-full mr-4 object-cover"
+                                            />
                                             <h2 className="text-xl font-semibold text-gray-800 px-[10px]">{lesson.teacherDetails.name}</h2>
                                         </div>
                                         <p className="text-gray-600 mb-2">נושא: {lesson.subject || "שיעור פרטי אנגלית"}</p>
@@ -80,10 +84,3 @@ const MyLessons = () => {
 }
 
 export default MyLessons;
-
-
-
-
-
-
-
