@@ -3,25 +3,37 @@ import NavBarTeacher from "../components/forteacher/NavBarTeacher";
 import UpdateAvailability from "../components/forteacher/UpdateAvailability.jsx";
 import AvgRating from "../components/AvgRating.jsx";
 import {useNavigate} from 'react-router-dom';
+import GetReviews from "../data/GetReviews.jsx";
+import profile from "../images/profile.png";
+import StudentsReviews from '../components/StudentsReviews';
 
 const TeacherPage = () => {
     const navigate = useNavigate();
+    const [reviews, setReviews] = useState([])
 
     // let user = localStorage.getItem("userInfo");
     // user = JSON.parse(user);
     const [userInfo, setUserInfo] = useState("");
 
     useEffect(() => {
-        const userInfoString = localStorage.getItem('userInfo');
-        if (userInfoString) {
-            const userInfoObj = JSON.parse(userInfoString);
-            if (userInfoObj.role !== 'teacher') {
-                navigate('/login-teachers'); // Use navigate for programmatic navigation
-            }
+        const fetchData = async () => {
+            const userInfoString = localStorage.getItem('userInfo');
+            if (userInfoString) {
+                const userInfoObj = JSON.parse(userInfoString);
+                if (userInfoObj.role !== 'teacher') {
+                    navigate('/login-teachers'); // Use navigate for programmatic navigation
+                }
 
-            setUserInfo(userInfoObj);
-        }
-    }, []);
+                setUserInfo(userInfoObj);
+                console.log(userInfoObj)
+                const review = await GetReviews(userInfoObj._id);
+                setReviews(review);
+                console.log(reviews)
+            }
+        };
+
+        fetchData();
+    }, [navigate]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
@@ -42,8 +54,10 @@ const TeacherPage = () => {
                     <p className="text-xl text-gray-700 text-center">{userInfo.desc}</p>
                     <p className="text-2xl font-semibold mt-4 underline text-center">מחיר לשיעור:</p>
                     <p className="text-xl text-gray-700 text-center">{userInfo.price} ש"ח</p>
+                  {reviews && <StudentsReviews reviews = {reviews}/>}
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow-lg relative flex flex-col justify-center items-center">
+
+                <div className="bg-white p-6 rounded-lg shadow-lg relative flex flex-col items-center">
                     <div className="mb-6">
                         <p className="text-2xl font-semibold mb-2 underline text-center">מה הדירוג שלי:</p>
                        {userInfo && <AvgRating teacherId={userInfo._id} />}
