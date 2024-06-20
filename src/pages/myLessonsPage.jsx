@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from "../components/header/NavBar.jsx";
 import profile from "../images/profile.png"
+import {useNavigate} from 'react-router-dom';
 
 
 const MyLessons = () => {
 
+    const navigate = useNavigate();
 
     const [lessons, setLessons] = useState([]);
 
@@ -16,6 +18,11 @@ const MyLessons = () => {
                 console.log(response.data.lessons);
                 setLessons(response.data.lessons)
             } catch (error) {
+                
+                if (error.response.status === 403)
+                    navigate('/login'); 
+                   
+
                 console.error('Error fetching lessons:', error)}}
         fetchLessons();
     }, []);

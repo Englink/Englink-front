@@ -15,6 +15,7 @@ import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
 
 
 const MainPage = () => {
+
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
 
@@ -35,6 +36,8 @@ const MainPage = () => {
                 const teachersWithRatings = res.data.teachers.map(teacher => ({...teacher, averageRating: 0}));
                 setTeachers(teachersWithRatings);
             } catch (error) {
+                navigate('/login'); 
+
                 console.error("Failed to fetch teachers", error);
             } finally {
                 setLoading(false);
@@ -194,7 +197,6 @@ const MainPage = () => {
                             <div className="relative">
 
                                 <div className="glass-effect rounded-lg shadow-lg overflow-hidden">
-                                <p>{teachers.length}</p>
 
                                     <img
                                         src={teacher.image ? `http://localhost:3003/${teacher.image}` : profile}

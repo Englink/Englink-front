@@ -125,12 +125,13 @@ const UpdateAvailability = () => {
                 for (const dateObj of dates) {
                     for (const time of dateObj.times) {
                         const [hour, minute] = time.split(':');
-                        const [day, month, year] = dateObj.date.split('.')
+                        const dateInDateFormat = new Date(dateObj.date)
+                        console.log(dateInDateFormat)
                         const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
                             date: {
-                                year: year,
-                                month: month,
-                                day: day,
+                                year: dateInDateFormat.getFullYear(),
+                                month: dateInDateFormat.getMonth(),
+                                day: dateInDateFormat.getDate(),
                                 hour: hour,
                                 minute: minute
                             }
@@ -139,19 +140,20 @@ const UpdateAvailability = () => {
                     }
                 }
             } else if (action === 'remove') {
-                const datess = []
+                const datesToRemove = []
                 for (const dateObj of dates) {
                     const timeInDays = dateObj.times.map((time) => {
-                        const [day, month, year] = dateObj.date.split('.')
+                        const dateInDateFormat = new Date(dateObj.date)
                         const [hour, minute] = time.split(':');
-                        const dateToDelete = new Date(year, month - 1, day, hour, minute)
+
+                        const dateToDelete = new Date(dateInDateFormat.getFullYear(), dateInDateFormat.getMonth(),dateInDateFormat.getDate(), hour, minute)
                         return dateToDelete
                     })
-                    datess.push(...timeInDays)
+                    datesToRemove.push(...timeInDays)
                 }
                 
                 const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
-                    datess
+                    datesToRemove: datesToRemove
                 }, { withCredentials: true });
                 console.log('Availability updated successfully for dates and times:', response.data);
             }
@@ -193,7 +195,7 @@ const UpdateAvailability = () => {
     return (
         <div className="bg-gradient-to-r from-gray-100 to-gray-300 min-h-screen py-8">
             <Sppiner loading={loading} />
-            <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6">
+            <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 text-center">
                 <h1 className="text-4xl font-bold text-center text-blue-600 mb-6">עדכון זמינות</h1>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="datePicker">
