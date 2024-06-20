@@ -10,11 +10,11 @@ const StarRating = ({ teacherId, onAverageCalculated }) => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
+                console.log(teacherId)
                 const response = await GetReviews(teacherId);
-                console.log(response)
                 if (response) {
                     setReviews(response);
-                    // calculateAverageRating(response);
+                    calculateAverageRating(response);
                 } else {
                     console.error('Invalid response from server');
                 }

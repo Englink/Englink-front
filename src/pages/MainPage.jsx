@@ -36,6 +36,7 @@ const MainPage = () => {
                 const teachersWithRatings = res.data.teachers.map(teacher => ({...teacher, averageRating: 0}));
                 setTeachers(teachersWithRatings);
             } catch (error) {
+                console.log('e')
                 navigate('/login'); 
 
                 console.error("Failed to fetch teachers", error);
@@ -190,7 +191,7 @@ const MainPage = () => {
                 </div>
               
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-                    {teachers.map((teacher, index) => (
+                    {filteredTeachers.map((teacher, index) => (
                         
                         <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
                             {/*הדיב של התמונה*/}
@@ -221,7 +222,7 @@ const MainPage = () => {
                                 >
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
-                                <StarRating teacherId={teacher._id}
+                               <StarRating teacherId={teacher._id}
                                             onAverageCalculated={(rating) => handleAverageRating(teacher._id, rating)}/>
                                 <div className='mb-4'>
                                     <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>
