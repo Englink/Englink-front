@@ -7,12 +7,26 @@ import Sppiner from "../components/Sppiner.jsx";
 
 import RemoveDialog from "../components/modal/RemoveDialog.jsx";
 import deleteStudentUser from "../data/DeleteStudent.jsx";
+import {useNavigate} from 'react-router-dom';
+import React, { useEffect } from 'react';
+
 
 
 const ProfilePage = () => {
+    const navigate = useNavigate();
     let user = localStorage.getItem("userInfo");
-    user = JSON.parse(user);
-
+    useEffect(() => {
+        if (user) {
+            user = JSON.parse(user);
+            console.log(user);
+            
+            if (user.role !== 'student') {
+                navigate('/login'); // Use navigate for programmatic navigation
+            }
+        } else {
+            navigate('/login'); // Redirect if user info is not found
+        }
+    });
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({

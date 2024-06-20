@@ -9,9 +9,11 @@ import GetReviews from "../data/GetReviews.jsx";
 import profile from "../images/profile.png";
 import StarRating from "../components/AvgRating.jsx";
 import GetTeacherById from "../data/GetOneTheacher.jsx";
+import { useNavigate } from 'react-router-dom'
 
 
 const SetAlessonPage = () => {
+
     const [loading, setLoading] = useState(false);
     const [availabilities, setAvailabilities] = useState({});
     const [selectedHour, setSelectedHour] = useState(null);
@@ -21,8 +23,22 @@ const SetAlessonPage = () => {
     const [currentWeek, setCurrentWeek] = useState(getCurrentWeek());
     const [reviews, setReviews] = useState([])
     const [teacherditals, setTeacherditals] = useState([])
+    const navigate = useNavigate();
+    let user = localStorage.getItem("userInfo");
 
     useEffect(() => {
+        console.log(user.role)
+        if (user)
+            {
+                user = JSON.parse(user);
+                if(user.role !== 'student')
+                    navigate('/login'); // Use navigate for programmatic navigation
+            }
+
+
+
+
+    
 
         async function fetchAvailabilities() {
             setLoading(true)
@@ -58,6 +74,7 @@ const SetAlessonPage = () => {
                     setAvailabilities({});
                 }
             } catch {
+
                 console.log('error from get availabilities')
                 setAvailabilities({});
             } finally {

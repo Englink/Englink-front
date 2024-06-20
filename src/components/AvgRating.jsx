@@ -11,9 +11,10 @@ const StarRating = ({ teacherId, onAverageCalculated }) => {
         const fetchReviews = async () => {
             try {
                 const response = await GetReviews(teacherId);
-                if (response && response) {
+                console.log(response)
+                if (response) {
                     setReviews(response);
-                    calculateAverageRating(response);
+                    // calculateAverageRating(response);
                 } else {
                     console.error('Invalid response from server');
                 }
@@ -28,7 +29,7 @@ const StarRating = ({ teacherId, onAverageCalculated }) => {
     const calculateAverageRating = (comments) => {
         if (!comments || comments.length === 0) {
             setAverageRating(0);
-            onAverageCalculated(0); // Notify parent about the rating
+            // onAverageCalculated(0); // Notify parent about the rating
             return;
         }
 
