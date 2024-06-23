@@ -1,26 +1,51 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import updateUserDetails from '../../data/EditUserDetails.jsx'
 import NavBarTeacher from './NavBarTeacher.jsx'
 import profile from '../../images/profile.png'
 import Spinner from "../Sppiner.jsx"
 import RemoveDialog from "../modal/RemoveDialog.jsx";
 import deleteStudentUser from "../../data/DeleteStudent.jsx";
+import DeleteUserImage from '../../data/DeleteUserImage.jsx'
+import UpdateImage from '../../data/UpdateImage.jsx'
+import EditImageProfile from '../EditImageProfile.jsx'
 
 
 
 const ProfilePage = () => {
-    let user = localStorage.getItem("userInfo")
-    user = JSON.parse(user);
-    console.log(user);
+    let user = localStorage.getItem("userInfo");
+
+    useEffect(() => {
+        if (user) {
+            user = JSON.parse(user);
+            setUserImage(user.image ? `http://localhost:3003/${user.image}` : profile);
+            if (user.role !== 'teacher') {
+                navigate('/login-teachers'); // Use navigate for programmatic navigation
+            }
+        } 
+    }, []);
+    const [userImage, setUserImage] = useState(profile);
 
     const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                name:user.name|| '',
+                email:user.email|| '',
+                phone:user.phone|| '',
+                desc:user.desc||'',
+                price:user.price|| '',
+                currentPassword: '',
+                password: ''
+                    });
+        }
+    }, []);
+console.log('a')
 
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        phone: '',
+        phone:'',
         desc:'',
-        image: '',
         currentPassword: '',
         password: '',
         price: ''
@@ -37,13 +62,30 @@ const ProfilePage = () => {
         setDialogOpen(false);
     };
 
-    const handleFileChange = (e) => {
-        console.log(e.target.files[0])
-        setFormData({
-            ...formData,
-            image: e.target.files[0],
-        })
+    const handleFileChange = async (e) => {
+        e.preventDefault();
+        const file = e.target.files[0]
+        if(!file)
+            return
+        const response = await UpdateImage(file);
+        user =  JSON.parse(user);
+
+        if (response.status === 200) {
+            user.image = response.data.imagePath
+            localStorage.setItem('userInfo', JSON.stringify(user));
+            setUserImage(`http://localhost:3003/${response.data.imagePath}`)
+        }
     }
+    const handleDeleteImage = async () => {
+        const success = await DeleteUserImage();
+        user =  JSON.parse(user);
+
+        if (success && user.image) {
+            user.image = ''
+            localStorage.setItem('userInfo', JSON.stringify(user));
+            setUserImage(profile)
+        }
+    };
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -70,15 +112,17 @@ const ProfilePage = () => {
             alert("פרטיך עודכנו בהצלחה")
 
             localStorage.setItem('userInfo', JSON.stringify(updatedData.updatedStudent))
-            window.location.reload();
+            // window.location.reload();
+            user = localStorage.getItem("userInfo");
+            user = JSON.parse(user);
+
         } catch (error) {
             console.error(error)
         } finally {
             setLoading(false)
         }
     };
-    console.log(user);
-    const userImage = user.image ? `http://localhost:3003/${user.image}` : profile
+    // const userImage = user.image ? `http://localhost:3003/${user.image}` : profile
 
     return (
         <>
@@ -92,13 +136,9 @@ const ProfilePage = () => {
                             <h1 className="text-5xl font-extrabold underline mb-5 transition-all duration-500 ease-in-out transform hover:scale-110">פרופיל
                                 אישי</h1>
                             <h2 className="text-3xl font-semibold transition-all duration-500 ease-in-out transform hover:scale-110">ברוכים
-                                הבאים, {user.name}!</h2>
+                                הבאים {user.name}!</h2>
                         </div>
-                        <img
-                            className="w-48 h-48 rounded-full object-cover mb-4 shadow-lg border-4 border-blue-500"
-                            src={userImage}
-                            alt='profile'
-                        />
+                    <EditImageProfile userImage={userImage} handleDeleteImage={handleDeleteImage} handleFileChange={handleFileChange}/>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -170,16 +210,6 @@ const ProfilePage = () => {
                                         placeholder={user.price ? user.price : ''}
                                         className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                     />
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <label htmlFor="image-upload"
-                                           className="block text-sm font-medium text-gray-700 mb-2 ">העלה תמונה</label>
-                                    <input type="file" id="image-upload" name="image" onChange={handleFileChange}
-                                           className="hidden"/>
-                                    <label htmlFor="image-upload"
-                                           className="cursor-pointer bg-purple hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
-                                        בחר תמונה
-                                    </label>
                                 </div>
 
                             </div>

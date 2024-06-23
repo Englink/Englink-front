@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Spinner from "../components/Sppiner.jsx";
@@ -8,6 +8,12 @@ function LoginPage() {
   const [userMail, setuserMail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [loading, setLoading] = useState(false);
+  useEffect(()=>
+  {
+    setuserMail('')
+    setUserPassword('')
+
+  },[])
   
   function handleForgotPasswordClick(event) {
     event.preventDefault(); // Prevent the default link behavior
@@ -59,7 +65,6 @@ function LoginPage() {
               placeholder="אימייל"
               type="text"
               id="userMail"
-              autoComplete="off"
               value={userMail}
               onChange={(e) => setuserMail(e.target.value)}
               className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"
@@ -70,7 +75,6 @@ function LoginPage() {
               placeholder="סיסמה"
               type="password"
               id="userPassword"
-              autoComplete="off"
               value={userPassword}
               onChange={(e) => setUserPassword(e.target.value)}
               className="shadow border bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none"

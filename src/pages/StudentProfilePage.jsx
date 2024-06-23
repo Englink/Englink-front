@@ -6,18 +6,19 @@ import editprifilepic from '../images/editprifilepic.jpg';
 import Sppiner from "../components/Sppiner.jsx";
 import RemoveDialog from "../components/modal/RemoveDialog.jsx";
 import deleteStudentUser from "../data/DeleteStudent.jsx";
-import { useNavigate } from 'react-router-dom';
-
+import { json, useNavigate } from 'react-router-dom';
+import DeleteUserImage from '../data/DeleteUserImage.jsx';
+import UpdateImage from '../data/UpdateImage.jsx';
+import EditImageProfile from '../components/EditImageProfile.jsx';
 const ProfilePage = () => {
-    const [userImage, setUserImage] = useState(profile);
+    
     const navigate = useNavigate();
+    
     let user = localStorage.getItem("userInfo");
-
     useEffect(() => {
         if (user) {
             user = JSON.parse(user);
             setUserImage(user.image ? `http://localhost:3003/${user.image}` : profile);
-
             if (user.role !== 'student') {
                 navigate('/login'); // Use navigate for programmatic navigation
             }
@@ -25,13 +26,13 @@ const ProfilePage = () => {
             navigate('/login'); // Redirect if user info is not found
         }
     }, []);
-
+    
+    const [userImage, setUserImage] = useState(profile);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
-        image: '',
         currentPassword: '',
         password: ''
     });
@@ -40,13 +41,11 @@ const ProfilePage = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     useEffect(() => {
-        console.log(user)
         if (user) {
             setFormData({
                 name: user.name || '',
                 email: user.email || '',
                 phone: user.phone || '',
-                image: '',
                 currentPassword: '',
                 password: ''
             });
@@ -61,13 +60,7 @@ const ProfilePage = () => {
         setDialogOpen(false);
     };
 
-    const handleFileChange = (e) => {
-        setFormData({
-            ...formData,
-            image: e.target.files[0],
-        });
-    };
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -75,30 +68,64 @@ const ProfilePage = () => {
             [name]: value,
         });
     };
-
+    
     const handleSubmit = async () => {
         setLoading(true);
-
+        
         if (formData.password && formData.password !== formData.currentPassword) {
             alert("הסיסמאות אינן זהות");
             setLoading(false);
             return;
         }
-
+        
         const dataToSend = { ...formData };
         delete dataToSend.currentPassword;
-
+        
         try {
+            console.log(dataToSend)
             const updatedData = await updateUserDetails(dataToSend);
             alert("פרטיך עודכנו בהצלחה");
             localStorage.setItem('userInfo', JSON.stringify(updatedData.updatedStudent));
+            user = localStorage.getItem("userInfo");
+            user = JSON.parse(user);
+            
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
     };
+    const handleDeleteImage = async () => {
+        
+        const success = await DeleteUserImage();
+        user =  JSON.parse(user);
+        console.log(user)
+        if (success && user.image) {
+            console.log(userImage)
+            user.image = ''
+            localStorage.setItem('userInfo', JSON.stringify(user));
+            setUserImage(profile)
+        }
+    };
+    const handleFileChange = async (e) => {
+        e.preventDefault();
+        const file = e.target.files[0]
+        if(!file)
+            return
 
+        const response = await UpdateImage(file);
+        user = JSON.parse(user)
+
+        if (response.status === 200) {
+            user.image = response.data.imagePath
+            localStorage.setItem('userInfo', JSON.stringify(user));
+            setUserImage(`http://localhost:3003/${response.data.imagePath}`)
+        }
+    };
+            
+
+
+    
     return (
         <>
             <Sppiner loading={loading} />
@@ -109,9 +136,9 @@ const ProfilePage = () => {
                     <div className="flex flex-col items-center justify-center mb-8">
                         <div className="text-center mb-6 animate-pulse">
                             <h1 className="text-5xl font-extrabold transition-all duration-500 ease-in-out transform hover:scale-110">פרופיל אישי</h1>
-                            <h3 className="text-3xl font-semibold transition-all duration-500 ease-in-out transform hover:scale-110">ברוכים הבאים, {user.name}!</h3>
+                            <h3 className="text-3xl font-semibold transition-all duration-500 ease-in-out transform hover:scale-110">ברוכים הבאים {user.name}!</h3>
                         </div>
-                        <img className="w-48 h-48 rounded-full object-cover mb-4 shadow-lg border-4 border-purple" src={userImage} alt='profile' />
+                        <EditImageProfile userImage={userImage} handleDeleteImage={handleDeleteImage} handleFileChange={handleFileChange}/>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
@@ -151,11 +178,6 @@ const ProfilePage = () => {
                                         placeholder={user.phone}
                                         className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                     />
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700 mb-2">העלה תמונה</label>
-                                    <input type="file" id="image-upload" name="image" onChange={handleFileChange} className="hidden" />
-                                    <label htmlFor="image-upload" className="cursor-pointer bg-purple hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">בחר תמונה</label>
                                 </div>
                             </div>
                         </div>
