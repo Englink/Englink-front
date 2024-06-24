@@ -119,19 +119,27 @@ const UpdateAvailability = () => {
     };
 
     const handleSubmit = async () => {
+        let [day, month, year] =''
         try {
             setLoading(true);
             if (action === 'add') {
                 for (const dateObj of dates) {
                     for (const time of dateObj.times) {
                         const [hour, minute] = time.split(':');
-                        const dateInDateFormat = new Date(dateObj.date)
-                        console.log(dateInDateFormat)
+                        if(dateObj.date.includes('.'))
+                            {
+                                 [day, month, year] = dateObj.date.split('.')
+                            }
+                        else if(dateObj.date.includes('/'))
+                            {
+                                [month, day, year] = dateObj.date.split('/')
+                            }
+
                         const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
                             date: {
-                                year: dateInDateFormat.getFullYear(),
-                                month: dateInDateFormat.getMonth(),
-                                day: dateInDateFormat.getDate(),
+                                year: year,
+                                month: month-1,
+                                day: day,
                                 hour: hour,
                                 minute: minute
                             }
@@ -143,10 +151,19 @@ const UpdateAvailability = () => {
                 const datesToRemove = []
                 for (const dateObj of dates) {
                     const timeInDays = dateObj.times.map((time) => {
-                        const dateInDateFormat = new Date(dateObj.date)
-                        const [hour, minute] = time.split(':');
+                        if(dateObj.date.includes('.'))
+                            {
+                                 [day, month, year] = dateObj.date.split('.')
+                            }
+                            else if(dateObj.date.includes('/'))
+                                {
+                                [month, day, year] = dateObj.date.split('/')
 
-                        const dateToDelete = new Date(dateInDateFormat.getFullYear(), dateInDateFormat.getMonth(),dateInDateFormat.getDate(), hour, minute)
+                            }
+
+
+                        const [hour, minute] = time.split(':');
+                        const dateToDelete = new Date(year, month - 1, day, hour, minute)
                         return dateToDelete
                     })
                     datesToRemove.push(...timeInDays)
