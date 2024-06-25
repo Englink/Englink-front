@@ -98,14 +98,16 @@ const SingUpTeachersPage = () => {
                          className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="number" min={0}/>
                     </div>
 
-                   {/* שדה של מין */}
-                   <div className='mr-1'>
-                    <select {...register("gender", {required: false})} className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none">
-                        <option value="">בחר מין</option>
+                 {/* שדה של מגדר*/}
+                 <div className='input-container relative flex items-center w-full'>
+                   <span className="text-red-600">*</span>
+                    <select {...register("gender", {required: true})} className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none">
+                        <option value="">בחר מגדר</option>
                         <option value="male">זכר</option>
                         <option value="female">נקבה</option>
                     </select>
                     </div>
+                    {errors.gender && <span  className="text-red-600">מגדר הוא שדה חובה</span>}
 
 
                   
