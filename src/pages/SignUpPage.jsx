@@ -1,20 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import onSubmit from "../data/PostSignupstudents.jsx";
+import Sppiner from "../components/Sppiner.jsx";
 // import Spinner from "../components/Sppiner.jsx";
 
 
 
 
 const SignUpPage = () => {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+        const [loading, setLoading] = useState(false);
+
+
+        const {register, handleSubmit, formState: {errors}} = useForm();
     // פונקציה שנמצאת בדאטה ועושה בקשת פוסט למאגר התלמידים
     <onSubmit/>
 
 
 return (
     <>
-
+<Sppiner loading={loading} />
           <div className="relative flex flex-col h-screen font-sans">
                 {/* תמונת הרקע */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -96,7 +100,9 @@ return (
                     {/* כפתור שליחת הטופס */}
                     <div className='mr-1'>
                     <button type="submit"
+                            onClick={() => setLoading(true)}
                             className="bg-purple text-white font-bold py-2 px-4 w-full rounded">הרשמה
+
                     </button>
                     </div>
                 </form>
