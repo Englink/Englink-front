@@ -10,8 +10,9 @@ const StarRating = ({ teacherId, onAverageCalculated }) => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
+                console.log(teacherId)
                 const response = await GetReviews(teacherId);
-                if (response && response) {
+                if (response) {
                     setReviews(response);
                     calculateAverageRating(response);
                 } else {
@@ -28,7 +29,7 @@ const StarRating = ({ teacherId, onAverageCalculated }) => {
     const calculateAverageRating = (comments) => {
         if (!comments || comments.length === 0) {
             setAverageRating(0);
-            onAverageCalculated(0); // Notify parent about the rating
+            // onAverageCalculated(0); // Notify parent about the rating
             return;
         }
 

@@ -15,6 +15,7 @@ import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
 
 
 const MainPage = () => {
+
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
 
@@ -35,6 +36,9 @@ const MainPage = () => {
                 const teachersWithRatings = res.data.teachers.map(teacher => ({...teacher, averageRating: 0}));
                 setTeachers(teachersWithRatings);
             } catch (error) {
+                console.log('e')
+                navigate('/login'); 
+
                 console.error("Failed to fetch teachers", error);
             } finally {
                 setLoading(false);
@@ -87,7 +91,6 @@ const MainPage = () => {
     const handleRatingChange = (event, newValue) => {
         setRatingRange(newValue);
     };
-
     return (
         <>
             <Spinner loading={loading}/>
@@ -96,7 +99,7 @@ const MainPage = () => {
             </header>
             <FullScreenImage/>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 min-h-screen max-w-7xl">
                 <div className="search-container mb-2 bg-hnav rounded-full">
                     <div className="relative mb-4 ">
                         <input
@@ -104,11 +107,11 @@ const MainPage = () => {
                             type="text"
                             placeholder="חיפוש מורה לפי שם"
                             className="search-container text-white mb-4"
-
+                            
                             style={{width: '80%'}} // Custom width
-
+                            
                             onInput={(event) => setQuery(event.target.value)}
-                        />
+                            />
                     </div>
 
                     <div className="mt-4 text-center">
@@ -125,7 +128,7 @@ const MainPage = () => {
                                     direction: 'ltr',
                                     width: '200px', // Change the width here
                                 }}
-                            />
+                                />
                         </Box>
                         <div className="flex justify-between mt-2 text-white">
                             <span>{priceRange[1]} ש"ח</span>
@@ -163,7 +166,6 @@ const MainPage = () => {
                             <span>{ratingRange[0]} &#9733;</span> {/* &#9733; is the Unicode for a star */}
                         </div>
                     </div>
-
                     <div className="mt-4 mr-10 text-center">
                         <p className="text-center text-white mb-2">בחר מגדר:</p>
                         <div className="flex justify-center text-sm"> {/* Removed space-x-4 */}
@@ -187,14 +189,17 @@ const MainPage = () => {
                     </div>
 
                 </div>
-
+              
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
 
+                        
                         <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
                             {/*הדיב של התמונה*/}
                             <div className="relative">
+
                                 <div className="glass-effect rounded-lg shadow-lg overflow-hidden">
+
                                     <img
                                         src={teacher.image ? `http://localhost:3003/${teacher.image}` : profile}
                                         alt="profile"
@@ -218,7 +223,7 @@ const MainPage = () => {
                                 >
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
-                                <StarRating teacherId={teacher._id}
+                               <StarRating teacherId={teacher._id}
                                             onAverageCalculated={(rating) => handleAverageRating(teacher._id, rating)}/>
                                 <div className='mb-4'>
                                     <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>

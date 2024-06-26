@@ -36,8 +36,8 @@ const NavBar = () => {
   const userImage = user.image ? `http://localhost:3003/${user.image}` : profile;
 
   return (
-      <nav className="bg-hnav text-but w-full z-50 shadow-md relative max-w-7xl m-auto">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative">
+      <nav className="bg-hnav text-but w-full z-50 shadow-md relative m-auto">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 relative max-w-screen-xl	">
           {/* לוגו למסכים קטנים - ממוקם באמצע באמצעות absolute positioning */}
           <div className="flex md:hidden justify-center flex-grow absolute left-1/2 transform -translate-x-1/2">
             <a href="#" className="text-but font-bold text-xl animate-pulse">
@@ -62,7 +62,7 @@ const NavBar = () => {
           </div>
 
           {/* קישורי ניווט - מוצגים רק במסכים גדולים */}
-          <div className="hidden md:flex items-center justify-center flex-grow space-x-6">
+          <div className="hidden lg:flex items-center justify-center flex-grow space-x-6">
             <a
                 href="/teacher-page"
                 className="text-but hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -75,15 +75,15 @@ const NavBar = () => {
             >
               פרופיל
             </a>
-            <a
+            {/* <a
                 href="/teacher-page/update-availability"
                 className="text-but hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
               עדכון זמינות
-            </a>
+            </a> */}
             <a
                 href="/teacher-page/my-classes"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium text-sm"
             >
               השיעורים שלי
             </a>

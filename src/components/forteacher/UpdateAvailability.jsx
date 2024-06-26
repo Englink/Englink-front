@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './upda.css';
-import Sppiner from "../Sppiner.jsx";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
+import './upda.css'
+import Sppiner from "../Sppiner.jsx"
+
 
 const UpdateAvailability = () => {
     const [dates, setDates] = useState([]);
@@ -15,40 +16,38 @@ const UpdateAvailability = () => {
     const [action, setAction] = useState(null); // 'add' or 'remove'
     const [loading, setLoading] = useState(false);
 
+    const fetchOccupiedDates = async () => {
+        try {
+            const userInfoString = localStorage.getItem('userInfo');
+            let userInfoObj = null;
+            if (userInfoString) {
+                userInfoObj = JSON.parse(userInfoString);
+            }
+
+            const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
+            if (response.data.status === 'success') {
+                const availabilities = response.data.teacherAvailability;
+                const occupied = {};
+                availabilities.forEach(availability => {
+                    const date = new Date(availability.date);
+                    const dateString = date.toLocaleDateString();
+                    const timeString = formatTime(date.getHours(), date.getMinutes());
+                    if (!occupied[dateString]) {
+                        occupied[dateString] = [];
+                    }
+                    occupied[dateString].push(timeString);
+                });
+                setOccupiedDates(occupied);
+            }
+            
+        } catch (error) {
+            console.error('Error fetching occupied dates:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchOccupiedDates = async () => {
-            try {
-                const userInfoString = localStorage.getItem('userInfo');
-                let userInfoObj = null;
-                if (userInfoString) {
-                    userInfoObj = JSON.parse(userInfoString);
-                }
-
-                const response = await axios.get(`http://localhost:3003/api/teachers/get-teacher-availability/${userInfoObj._id}`, { withCredentials: true });
-                if (response.data.status === 'success') {
-                    const availabilities = response.data.teacherAvailability;
-                    const occupied = {};
-                    availabilities.forEach(availability => {
-                        const date = new Date(availability.date);
-                        const dateString = date.toLocaleDateString();
-                        const timeString = formatTime(date.getHours(), date.getMinutes());
-                        if (!occupied[dateString]) {
-                            occupied[dateString] = [];
-                        }
-                        occupied[dateString].push(timeString);
-                    });
-                    setOccupiedDates(occupied);
-                }
-                
-            } catch (error) {
-                console.error('Error fetching occupied dates:', error);
-            }
-        };
-
         fetchOccupiedDates();
     }, []);
-
 
     const formatTime = (hour, minute = 0) => {
         return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
@@ -60,7 +59,6 @@ const UpdateAvailability = () => {
         setOccupiedTimes(occupiedDates[dateString] || []);
         setShowTimePicker(true);
     };
-
 
     const handleAddDateTime = () => {
         setAction('add');
@@ -121,17 +119,26 @@ const UpdateAvailability = () => {
     };
 
     const handleSubmit = async () => {
+        let [day, month, year] =''
         try {
             setLoading(true);
             if (action === 'add') {
                 for (const dateObj of dates) {
                     for (const time of dateObj.times) {
                         const [hour, minute] = time.split(':');
-                        const [day, month, year] = dateObj.date.split('.')
+                        if(dateObj.date.includes('.'))
+                            {
+                                 [day, month, year] = dateObj.date.split('.')
+                            }
+                        else if(dateObj.date.includes('/'))
+                            {
+                                [month, day, year] = dateObj.date.split('/')
+                            }
+
                         const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
                             date: {
                                 year: year,
-                                month: month,
+                                month: month-1,
                                 day: day,
                                 hour: hour,
                                 minute: minute
@@ -141,19 +148,29 @@ const UpdateAvailability = () => {
                     }
                 }
             } else if (action === 'remove') {
-                const datess = []
+                const datesToRemove = []
                 for (const dateObj of dates) {
                     const timeInDays = dateObj.times.map((time) => {
-                        const [day, month, year] = dateObj.date.split('.')
+                        if(dateObj.date.includes('.'))
+                            {
+                                 [day, month, year] = dateObj.date.split('.')
+                            }
+                            else if(dateObj.date.includes('/'))
+                                {
+                                [month, day, year] = dateObj.date.split('/')
+
+                            }
+
+
                         const [hour, minute] = time.split(':');
                         const dateToDelete = new Date(year, month - 1, day, hour, minute)
                         return dateToDelete
                     })
-                    datess.push(...timeInDays)
+                    datesToRemove.push(...timeInDays)
                 }
                 
                 const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
-                    datess
+                    datesToRemove: datesToRemove
                 }, { withCredentials: true });
                 console.log('Availability updated successfully for dates and times:', response.data);
             }
@@ -165,13 +182,13 @@ const UpdateAvailability = () => {
             setAction(null);
             
             alert('המערכת התעדכנה בהצלחה');
+            fetchOccupiedDates()
         } catch (error) {
             console.error('Error updating availability:', error);
         } finally {
             setLoading(false);
         }
     };
-
 
     const handleCancelSelection = (index) => {
         const newDates = dates.filter((_, i) => i !== index);
@@ -195,7 +212,7 @@ const UpdateAvailability = () => {
     return (
         <div className="bg-gradient-to-r from-gray-100 to-gray-300 min-h-screen py-8">
             <Sppiner loading={loading} />
-            <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6">
+            <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 text-center">
                 <h1 className="text-4xl font-bold text-center text-blue-600 mb-6">עדכון זמינות</h1>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="datePicker">
@@ -297,6 +314,4 @@ const UpdateAvailability = () => {
     );
 };
 
-export default UpdateAvailability;
-
-
+export default UpdateAvailability
