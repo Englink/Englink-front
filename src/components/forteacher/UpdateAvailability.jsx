@@ -134,18 +134,25 @@ const UpdateAvailability = () => {
                             {
                                 [month, day, year] = dateObj.date.split('/')
                             }
+                            try{
 
-                        const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
-                            date: {
-                                year: year,
-                                month: month-1,
-                                day: day,
-                                hour: hour,
-                                minute: minute
+                                
+                                const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
+                                    date: {
+                                        year: year,
+                                        month: month-1,
+                                        day: day,
+                                        hour: hour,
+                                        minute: minute
+                                    }
+                                }, { withCredentials: true });
+                                console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
                             }
-                        }, { withCredentials: true });
-                        console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
-                    }
+                            catch(err)
+                            {
+                                
+                            }
+                        }
                 }
             } else if (action === 'remove') {
                 const datesToRemove = []
