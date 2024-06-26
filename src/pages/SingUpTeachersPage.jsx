@@ -94,17 +94,17 @@ const SingUpTeachersPage = () => {
                     {errors.password && <span  className="text-red-600">{errors.password.message}</span>}
 
                    
-                    {/* שדה של גיל */}
+                    {/* שדה של שנת לידה */}
                     <div className='mr-1'>
-                    <input {...register("age", {required: false})} placeholder="גיל"
-                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="number" min={0}/>
+                    <input {...register("age", {required: false})} placeholder="שנת לידה"
+                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="taxt"/>
                     </div>
 
                  {/* שדה של מגדר*/}
                  <div className='input-container relative flex items-center w-full'>
                    <span className="text-red-600">*</span>
                     <select {...register("gender", {required: true})} className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none">
-                        <option value="">בחר מגדר</option>
+                        <option value=""> מגדר</option>
                         <option value="male">זכר</option>
                         <option value="female">נקבה</option>
                     </select>

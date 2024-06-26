@@ -82,16 +82,16 @@ return (
                     </div>
                     {errors.password && <span  className="text-red-600">{errors.password.message}</span>}
 
-                    {/* שדה של גיל */}
+                    {/* שדה של שנת לידה */}
                     <div className='mr-1'>
-                    <input {...register("age", {required: false})} placeholder="גיל"
-                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="number" min={0}/>
+                    <input {...register("age", {required: false})} placeholder="שנת לידה"
+                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="taxt"/>
                     </div>
 
-                    {/* שדה של מין */}
+                    {/* שדה של מגדר */}
                     <div className='mr-1'>
                     <select {...register("gender", {required: false})} className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none">
-                        <option value="">בחר מין</option>
+                        <option value=""> מגדר</option>
                         <option value="male">זכר</option>
                         <option value="female">נקבה</option>
                     </select>
