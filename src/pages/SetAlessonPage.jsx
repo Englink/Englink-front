@@ -267,6 +267,7 @@ const SetAlessonPage = () => {
         <NavBar/>
         <div className="px-4 md:px-0 md:max-w-3xl md:mx-auto">
             <h1 className="text-6xl font-bold mt-8 text-center text-hnav">{teacherData.name}</h1>
+            <h1 className="text-1xl font-bold mt-8 text-center text-hnav">{teacherData.email}</h1>
             {/*{console.log(teacherData.image)}*/}
 <img className="h-44 w-44 rounded-full mt-5 mx-auto border-2 border-purple object-cover"
      src={teacherditals.image ? `http://localhost:3003/${teacherditals.image}` : profile} alt={profile}/>

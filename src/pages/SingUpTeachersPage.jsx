@@ -2,6 +2,7 @@
 import {useForm} from 'react-hook-form';
 import React from "react";
 import onSubmit from "../data/PostSignUpTeachers.jsx";
+import Sppiner from "../components/Sppiner.jsx";
 
 
 // יצירת קומפוננטת הטופס
@@ -16,6 +17,7 @@ const SingUpTeachersPage = () => {
     // החזרת JSX שמייצג את הטופס
     return (
         <>
+
             <div className="relative flex flex-col h-screen font-sans">
 
             <div className="absolute inset-0 flex items-center justify-center">

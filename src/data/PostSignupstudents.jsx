@@ -1,5 +1,7 @@
 import axios from "axios";
 import profile from '../images/profile.png'
+import {useState} from "react";
+
 
 const onSubmit = async (data) => {
     try {
@@ -13,7 +15,9 @@ const onSubmit = async (data) => {
                 image: '',
                 role: "student"
             }
-        };
+
+        }
+        ;
 
         const response = await axios.post('http://localhost:3003/api/students/register', payload);
 
@@ -29,6 +33,7 @@ const onSubmit = async (data) => {
         console.error('שגיאה במהלך ההרשמה:', error);
         alert('שגיאה במהלך ההרשמה')
     }
+
 };
 
 export default onSubmit;

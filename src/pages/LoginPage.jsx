@@ -60,7 +60,7 @@ function LoginPage() {
   
         <form onSubmit={handleLogin} className="w-3/4 md:w-1/2 grid gap-2">
           <div className="mb-4 text-right">
-            <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
+            <h2 className="text-2xl font-bold mb-4 text-dark-blue text-center">התחברות</h2>
             <input
               placeholder="אימייל"
               type="text"
