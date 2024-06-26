@@ -190,6 +190,7 @@ const MainPage = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {filteredTeachers.map((teacher, index) => (
+
                         <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
                             {/*הדיב של התמונה*/}
                             <div className="relative">
