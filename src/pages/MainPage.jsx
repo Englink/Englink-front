@@ -15,6 +15,7 @@ import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
 
 
 const MainPage = () => {
+
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
 
@@ -35,6 +36,9 @@ const MainPage = () => {
                 const teachersWithRatings = res.data.teachers.map(teacher => ({...teacher, averageRating: 0}));
                 setTeachers(teachersWithRatings);
             } catch (error) {
+                console.log('e')
+                navigate('/login'); 
+
                 console.error("Failed to fetch teachers", error);
             } finally {
                 setLoading(false);
@@ -95,7 +99,7 @@ const MainPage = () => {
             </header>
             <FullScreenImage/>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen max-w-7xl">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 min-h-screen max-w-7xl">
                 <div className="search-container mb-2 bg-hnav rounded-full">
                     <div className="relative mb-4 ">
                         <input
@@ -187,14 +191,14 @@ const MainPage = () => {
                 </div>
               
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-                    {teachers.map((teacher, index) => (
+                    {filteredTeachers.map((teacher, index) => (
+
                         
                         <div key={index} className="glass-effect rounded-lg shadow-lg flex flex-col items-center">
                             {/*הדיב של התמונה*/}
                             <div className="relative">
 
                                 <div className="glass-effect rounded-lg shadow-lg overflow-hidden">
-                                <p>{teachers.length}</p>
 
                                     <img
                                         src={teacher.image ? `http://localhost:3003/${teacher.image}` : profile}
@@ -219,7 +223,7 @@ const MainPage = () => {
                                 >
                                     {expandedStates[teacher._id] ? 'הצג פחות' : 'הצג עוד'}
                                 </button>
-                                <StarRating teacherId={teacher._id}
+                               <StarRating teacherId={teacher._id}
                                             onAverageCalculated={(rating) => handleAverageRating(teacher._id, rating)}/>
                                 <div className='mb-4'>
                                     <p className="text-hnav">מחיר לשיעור: {teacher.price} ש"ח</p>

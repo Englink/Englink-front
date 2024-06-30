@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import handleTeacherLogin from "../data/LoginTeacher.jsx";
+import Sppiner from "../components/Sppiner.jsx";
 
 
 function LoginTeacherPage() {
+    const [loading, setLoading] = useState(false); // Add loading state
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const navigate = useNavigate();
@@ -16,7 +18,9 @@ function LoginTeacherPage() {
     
 
     return (
+
         <div className="relative flex flex-col h-screen font-sans">
+            <Sppiner loading={loading} />
           {/* Image and background */}
           <div className="absolute inset-0 flex items-center justify-center">
             <img className="w-full object-cover object-bottom h-full" src="src/images/לוגין מורה.jpg" alt="Description of the image" />
@@ -29,7 +33,7 @@ function LoginTeacherPage() {
           <div className="z-10 flex items-center justify-center text-center md:w-1/2 h-full" dir="rtl">
             <form onSubmit={(e) => handleTeacherLogin(e, userName, userPassword, navigate)} className="w-3/4 md:w-1/2 grid gap-2">
               <div className="mb-4 text-right">
-                <h2 className="text-2xl font-bold mb-4 text-dark-blue">התחברות</h2>
+                <h2 className="text-2xl font-bold mb-4 text-dark-blue text-center">התחברות כמורה</h2>
                 <input
                   placeholder="אימייל"
                   type="text"
@@ -60,6 +64,7 @@ function LoginTeacherPage() {
                 />
               </div>
               <button
+                  onClick={() => setLoading(true)}
                 type="submit"
                 className="block w-full bg-blue hover:bg-gray text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 

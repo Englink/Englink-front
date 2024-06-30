@@ -22,7 +22,6 @@ import ForgotPassword from './pages/ForgetPasswordPage.jsx';
 import ResetPassword from './pages/ResetPasswordPage.jsx';
 
 
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -42,6 +41,7 @@ const router = createBrowserRouter([
         loader: async () => {
             try {
                 const res = await ValidateUser();
+                if (res.data.user.role)
                 return res
             } catch (error) {
                 return redirect('/login')
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
             const res = await ValidateUser();
             return res
         } catch (error) {
-            return redirect('/login-teachers')
+            return redirect('/login')
         }
     }
     },

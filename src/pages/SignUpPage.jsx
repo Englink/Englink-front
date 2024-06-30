@@ -1,20 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import onSubmit from "../data/PostSignupstudents.jsx";
+import Sppiner from "../components/Sppiner.jsx";
 // import Spinner from "../components/Sppiner.jsx";
 
 
 
 
 const SignUpPage = () => {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+        const [loading, setLoading] = useState(false);
+
+
+        const {register, handleSubmit, formState: {errors}} = useForm();
     // פונקציה שנמצאת בדאטה ועושה בקשת פוסט למאגר התלמידים
     <onSubmit/>
 
 
 return (
     <>
-
+<Sppiner loading={loading} />
           <div className="relative flex flex-col h-screen font-sans">
                 {/* תמונת הרקע */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -78,16 +82,16 @@ return (
                     </div>
                     {errors.password && <span  className="text-red-600">{errors.password.message}</span>}
 
-                    {/* שדה של גיל */}
+                    {/* שדה של שנת לידה */}
                     <div className='mr-1'>
-                    <input {...register("age", {required: false})} placeholder="גיל"
-                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="number" min={0}/>
+                    <input {...register("age", {required: false})} placeholder="שנת לידה"
+                         className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none" type="taxt"/>
                     </div>
 
-                    {/* שדה של מין */}
+                    {/* שדה של מגדר */}
                     <div className='mr-1'>
                     <select {...register("gender", {required: false})} className="shadow border  bg-white/0 placeholder-gray/100 rounded w-full py-2 px-3 focus:outline-none">
-                        <option value="">בחר מין</option>
+                        <option value=""> מגדר</option>
                         <option value="male">זכר</option>
                         <option value="female">נקבה</option>
                     </select>
@@ -96,7 +100,9 @@ return (
                     {/* כפתור שליחת הטופס */}
                     <div className='mr-1'>
                     <button type="submit"
+                            onClick={() => setLoading(true)}
                             className="bg-purple text-white font-bold py-2 px-4 w-full rounded">הרשמה
+
                     </button>
                     </div>
                 </form>
