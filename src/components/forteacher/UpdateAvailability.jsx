@@ -119,83 +119,82 @@ const UpdateAvailability = () => {
     };
 
     const handleSubmit = async () => {
-        let [day, month, year] =''
+        let [day, month, year] = '';
         try {
             setLoading(true);
             if (action === 'add') {
                 for (const dateObj of dates) {
                     for (const time of dateObj.times) {
                         const [hour, minute] = time.split(':');
-                        if(dateObj.date.includes('.'))
-                            {
-                                 [day, month, year] = dateObj.date.split('.')
-                            }
-                        else if(dateObj.date.includes('/'))
-                            {
-                                [month, day, year] = dateObj.date.split('/')
-                            }
-                            try{
-
-                                
-                                const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
-                                    date: {
-                                        year: year,
-                                        month: month-1,
-                                        day: day,
-                                        hour: hour,
-                                        minute: minute
-                                    }
-                                }, { withCredentials: true });
-                                console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
-                            }
-                            catch(err)
-                            {
-                                
+                        if (dateObj.date.includes('.')) {
+                            [day, month, year] = dateObj.date.split('.');
+                        } else if (dateObj.date.includes('/')) {
+                            [month, day, year] = dateObj.date.split('/');
+                        }
+                        try {
+                            const response = await axios.post('http://localhost:3003/api/teachers/update-availability', {
+                                date: {
+                                    year: year,
+                                    month: month - 1,
+                                    day: day,
+                                    hour: hour,
+                                    minute: minute
+                                }
+                            }, { withCredentials: true });
+                            console.log('Availability updated successfully for date and time:', dateObj.date, time, response.data);
+                            console.log(response);
+                        } catch (err) {
+                            if (err.response) {
+                                if (err.response.status === 405) {
+                                    console.error('Cannot update availability. The date has already passed.');
+                                    alert('הזמן חלף ולא ניתן לקבוע שיעור');
+                                } else {
+                                    console.error('An error occurred:', err.response.status, err.response.data);
+                                }
+                            } else {
+                                console.error('An error occurred:', err.message);
                             }
                         }
+                    }
                 }
             } else if (action === 'remove') {
                 const datesToRemove = []
                 for (const dateObj of dates) {
                     const timeInDays = dateObj.times.map((time) => {
-                        if(dateObj.date.includes('.'))
-                            {
-                                 [day, month, year] = dateObj.date.split('.')
-                            }
-                            else if(dateObj.date.includes('/'))
-                                {
-                                [month, day, year] = dateObj.date.split('/')
-
-                            }
-
-
+                        if (dateObj.date.includes('.')) {
+                            [day, month, year] = dateObj.date.split('.');
+                        } else if (dateObj.date.includes('/')) {
+                            [month, day, year] = dateObj.date.split('/');
+                        }
+    
                         const [hour, minute] = time.split(':');
-                        const dateToDelete = new Date(year, month - 1, day, hour, minute)
-                        return dateToDelete
-                    })
-                    datesToRemove.push(...timeInDays)
+                        const dateToDelete = new Date(year, month - 1, day, hour, minute);
+                        return dateToDelete;
+                    });
+                    datesToRemove.push(...timeInDays);
                 }
-                
+    
                 const response = await axios.post('http://localhost:3003/api/teachers/cancele-availability', {
                     datesToRemove: datesToRemove
                 }, { withCredentials: true });
                 console.log('Availability updated successfully for dates and times:', response.data);
             }
-            
+    
             setDates([]);
             setSelectedDate(new Date());
             setSelectedTimes([]);
             setShowTimePicker(false);
             setAction(null);
-            
+    
             alert('המערכת התעדכנה בהצלחה');
-            fetchOccupiedDates()
+            fetchOccupiedDates();
         } catch (error) {
             console.error('Error updating availability:', error);
         } finally {
             setLoading(false);
         }
     };
+    ;
 
     const handleCancelSelection = (index) => {
         const newDates = dates.filter((_, i) => i !== index);
@@ -322,3 +321,4 @@ const UpdateAvailability = () => {
 };
 
 export default UpdateAvailability
+
