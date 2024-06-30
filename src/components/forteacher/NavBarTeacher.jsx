@@ -41,7 +41,7 @@ const NavBar = () => {
           {/* לוגו למסכים קטנים - ממוקם באמצע באמצעות absolute positioning */}
           <div className="flex md:hidden justify-center flex-grow absolute left-1/2 transform -translate-x-1/2">
             <a href="#" className="text-but font-bold text-xl animate-pulse">
-              LearnLink
+              Englink
             </a>
           </div>
 
