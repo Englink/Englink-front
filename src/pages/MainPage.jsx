@@ -15,7 +15,6 @@ import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
 
 
 const MainPage = () => {
-
     let user = localStorage.getItem("userInfo");
     user = JSON.parse(user);
 
@@ -29,6 +28,7 @@ const MainPage = () => {
     const [expandedStates, setExpandedStates] = useState({});
 
     useEffect(() => {
+        
         const fetchTeachers = async () => {
             setLoading(true);
             try {
